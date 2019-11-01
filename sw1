@@ -1,0 +1,498 @@
+! Cisco Internetwork Operating System Software 
+! 
+! Image: Software: C3550-I5Q3L2-M, 12.1(19)EA1, RELEASE SOFTWARE (fc2)
+! Image: Compiled: Thu 23-Oct-03 21:44 by yenanh
+! Image: flash:/c3550-i5q3l2-mz.121-19.EA1.bin
+! Chassis type: WS-C3550-24
+! Memory: main 65526K/8192K
+! Processor ID: CAT0841R01Z
+! CPU: PowerPC
+! 
+! VTP: VTP Version                     : 2
+! VTP: Configuration Revision          : 0
+! VTP: Maximum VLANs supported locally : 1005
+! VTP: Number of existing VLANs        : 37
+! VTP: VTP Operating Mode              : Transparent
+! VTP: VTP Domain Name                 : 
+! VTP: VTP Pruning Mode                : Disabled
+! VTP: VTP V2 Mode                     : Disabled
+! VTP: VTP Traps Generation            : Disabled
+! VTP: MD5 digest                      : 0x15 0x28 0x6E 0xB1 0xD3 0x2B 0x76 0x46 
+! 
+! show inventory
+! 
+! 
+! 
+!
+version 12.1
+no service pad
+service timestamps debug uptime
+service timestamps log datetime localtime
+service password-encryption
+!
+hostname sw1
+!
+aaa new-model
+aaa authentication login default local group tacacs+
+aaa authorization config-commands
+aaa authorization exec default local group tacacs+
+aaa authorization commands 15 default group tacacs+ local if-authenticated
+enable secret 5 $1$7ZKF$BK6/5LoEROvL1ULQ.mIzF.
+enable password 7 13524341595A5272
+!
+username alex privilege 15 secret 5 $1$iS68$GY/enxtyH7W.dHvkvJwlV/
+username s.doroshenko privilege 15 secret 5 $1$GZZ/$lB1ZFsDzZ.TRusHW8Mnh1/
+username admin privilege 15 secret 5 $1$emJ/$WpyRRYcrvSxD90kFK4fYF1
+clock timezone MSK 3
+ip subnet-zero
+ip routing
+ip dhcp excluded-address 192.168.178.1 192.168.178.30
+ip dhcp excluded-address 192.168.178.240 192.168.178.255
+!
+ip dhcp pool vlan50
+   network 192.168.178.0 255.255.255.0
+   default-router 192.168.178.1 
+   dns-server 8.8.8.8 8.8.4.4 
+   lease 2
+!
+no ip domain-lookup
+vtp mode transparent
+!
+!
+spanning-tree mode rapid-pvst
+spanning-tree loopguard default
+no spanning-tree etherchannel guard misconfig
+spanning-tree extend system-id
+!
+!
+vlan 2
+ name VOIP
+!
+vlan 3
+ name DNS
+!
+vlan 4
+ name VOICE
+!
+vlan 5
+ name Sovintel
+!
+vlan 8
+ name INET_OFFICE
+!
+vlan 10
+ name -Office-LAN-
+!
+vlan 11
+ name WiFi-Guest
+!
+vlan 12
+ name komstar
+!
+vlan 13
+ name neva
+!
+vlan 15
+ name --Videonablydenie-Camery-
+!
+vlan 16
+ name Imperia-farma-TEST
+!
+vlan 17
+ name zlykh-test
+!
+vlan 21
+ name Apteka
+!
+vlan 22
+ name -serv1--
+!
+vlan 23
+ name test
+!
+vlan 24
+ name test2
+!
+vlan 25
+ name CentOS-WAN
+!
+vlan 29
+ name Camera.test.GMC
+!
+vlan 30
+ name -Test.Camera--
+!
+vlan 31-32 
+!
+vlan 33
+ name Test.Ivideon
+!
+vlan 35
+ name Ruckus.Test.AP
+!
+vlan 36
+ name Ruckus.Test.AP.2
+!
+vlan 50
+ name WiFi2
+!
+vlan 103
+ name test_centrex
+!
+vlan 200
+ name Public.kab.202.tehotdel
+!
+vlan 315,333 
+!
+vlan 500
+ name IP_PBX-RdNet
+!
+vlan 800
+ name RdNet_Merlin
+!
+vlan 822
+ name VoIP_RdNet
+!
+vlan 1500-1501 
+!
+vlan 2382
+ name Uplink_Komstar
+!
+vlan 2383
+ name office_reserve
+!
+vlan 3052
+ name erth81
+!
+vlan 3053
+ name erth82
+!
+vlan 3307
+ name erthtesttel
+!
+vlan 3339
+ name rdnet
+!
+vlan 3344
+ name test1
+!
+vlan 3399
+ name test11
+!
+vlan 3610
+ name TEST_IPTV_ERTH
+!
+!
+interface Tunnel1
+ no ip address
+ ip mtu 1500
+ tunnel source 10.64.101.10
+ tunnel destination 82.114.120.20
+!
+interface FastEthernet0/1
+ description to sw4
+ switchport trunk encapsulation dot1q
+ switchport trunk allowed vlan 10,15,50,200,822,3052,3053,3339
+ switchport mode trunk
+ no ip address
+ load-interval 30
+!
+interface FastEthernet0/2
+ description unifi+guest
+ switchport access vlan 10
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 10
+ switchport trunk allowed vlan 10,50
+ switchport mode trunk
+ no ip address
+ no cdp enable
+ spanning-tree bpdufilter enable
+!
+interface FastEthernet0/3
+ description unifi+guest
+ switchport access vlan 10
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 10
+ switchport trunk allowed vlan 10,50,3053
+ switchport mode trunk
+ no ip address
+ no cdp enable
+ spanning-tree bpdufilter enable
+!
+interface FastEthernet0/4
+ description oflan
+ switchport access vlan 10
+ switchport trunk encapsulation dot1q
+ switchport mode access
+ no ip address
+ no cdp enable
+ spanning-tree bpdufilter enable
+!
+interface FastEthernet0/5
+ description oflan_KEV
+ switchport trunk encapsulation dot1q
+ switchport trunk allowed vlan 1,10,822,3339
+ switchport mode trunk
+ switchport nonegotiate
+ no ip address
+ load-interval 30
+ no cdp enable
+ spanning-tree bpdufilter enable
+!
+interface FastEthernet0/6
+ description oflan
+ switchport access vlan 10
+ switchport trunk encapsulation dot1q
+ switchport mode access
+ no ip address
+ no cdp enable
+ spanning-tree bpdufilter enable
+!
+interface FastEthernet0/7
+ description oflan
+ switchport access vlan 10
+ switchport mode access
+ no ip address
+!
+interface FastEthernet0/8
+ description oflan
+ switchport access vlan 10
+ switchport trunk encapsulation dot1q
+ switchport mode access
+ no ip address
+ load-interval 30
+ no cdp enable
+ spanning-tree bpdufilter enable
+!
+interface FastEthernet0/9
+ description oflan
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 10
+ switchport trunk allowed vlan 10,200
+ switchport mode trunk
+ no ip address
+ no cdp enable
+ spanning-tree bpdufilter enable
+!
+interface FastEthernet0/10
+ description oflan
+ switchport access vlan 10
+ switchport trunk encapsulation dot1q
+ switchport mode access
+ no ip address
+ no cdp enable
+ spanning-tree bpdufilter enable
+!
+interface FastEthernet0/11
+ description oflan
+ switchport access vlan 10
+ switchport trunk encapsulation dot1q
+ switchport mode access
+ no ip address
+!
+interface FastEthernet0/12
+ description oflan
+ switchport access vlan 10
+ switchport trunk encapsulation dot1q
+ switchport mode access
+ no ip address
+ no cdp enable
+ spanning-tree bpdufilter enable
+!
+interface FastEthernet0/13
+ description oflan
+ switchport access vlan 10
+ switchport trunk encapsulation dot1q
+ switchport mode access
+ no ip address
+ no cdp enable
+ spanning-tree bpdufilter enable
+!
+interface FastEthernet0/14
+ description oflan
+ switchport access vlan 10
+ switchport trunk encapsulation dot1q
+ switchport mode access
+ no ip address
+ load-interval 30
+ no cdp enable
+ spanning-tree bpdufilter enable
+!
+interface FastEthernet0/15
+ description oflan_BAA
+ switchport access vlan 10
+ switchport mode access
+ no ip address
+ no cdp enable
+ spanning-tree bpdufilter enable
+!
+interface FastEthernet0/16
+ description oflan_BAN-sw
+ switchport trunk encapsulation dot1q
+ switchport trunk allowed vlan 10,822,3339
+ switchport mode trunk
+ no ip address
+ no cdp enable
+ spanning-tree bpdufilter enable
+!
+interface FastEthernet0/17
+ description erth81
+ switchport access vlan 3052
+ switchport trunk encapsulation dot1q
+ switchport mode access
+ no ip address
+ no cdp enable
+ spanning-tree bpdufilter enable
+!
+interface FastEthernet0/18
+ description erth81
+ switchport access vlan 3052
+ switchport trunk encapsulation dot1q
+ switchport mode access
+ no ip address
+ no cdp enable
+ spanning-tree bpdufilter enable
+!
+interface FastEthernet0/19
+ description oflan
+ switchport access vlan 10
+ switchport trunk encapsulation dot1q
+ switchport mode access
+ no ip address
+ no cdp enable
+ spanning-tree bpdufilter enable
+!
+interface FastEthernet0/20
+ description oflan
+ switchport access vlan 10
+ switchport trunk encapsulation dot1q
+ switchport mode access
+ no ip address
+ no cdp enable
+ spanning-tree bpdufilter enable
+!
+interface FastEthernet0/21
+ description oflan
+ switchport access vlan 10
+ switchport trunk encapsulation dot1q
+ switchport mode access
+ no ip address
+ load-interval 30
+ duplex full
+ speed 100
+ no cdp enable
+ spanning-tree bpdufilter enable
+!
+interface FastEthernet0/22
+ description oflan
+ switchport access vlan 10
+ switchport trunk encapsulation dot1q
+ switchport mode access
+ no ip address
+ load-interval 30
+ no cdp enable
+ spanning-tree bpdufilter enable
+!
+interface FastEthernet0/23
+ description cam-sklad
+ switchport access vlan 15
+ switchport trunk encapsulation dot1q
+ switchport mode access
+ no ip address
+ no cdp enable
+ spanning-tree bpdufilter enable
+!
+interface FastEthernet0/24
+ description oflan
+ switchport access vlan 10
+ switchport trunk encapsulation dot1q
+ switchport mode access
+ no ip address
+ no cdp enable
+ spanning-tree bpdufilter enable
+!
+interface GigabitEthernet0/1
+ switchport mode dynamic desirable
+ no ip address
+!
+interface GigabitEthernet0/2
+ switchport mode dynamic desirable
+ no ip address
+!
+interface Vlan1
+ ip address 10.64.101.10 255.255.255.248
+!
+interface Vlan3
+ no ip address
+!
+interface Vlan10
+ ip address 10.147.64.7 255.255.255.0
+!
+interface Vlan32
+ ip address 192.168.3.1 255.255.255.0
+!
+interface Vlan50
+ description TEST
+ ip address 192.168.178.11 255.255.255.0
+!
+interface Vlan333
+ ip address 10.10.10.2 255.255.255.0
+!
+interface Vlan2382
+ no ip address
+!
+interface Vlan2383
+ no ip address
+!
+interface Vlan3344
+ ip address 192.168.255.7 255.255.255.0
+!
+interface Vlan3399
+ ip address 10.78.0.119 255.255.255.0
+!
+ip classless
+ip route 0.0.0.0 0.0.0.0 10.64.101.9
+ip http server
+!
+ip access-list standard telnet-ssh
+ permit 82.114.96.0 0.0.31.255
+ permit 10.64.0.0 0.0.255.255
+ permit 192.168.249.0 0.0.0.255
+ permit 81.17.2.0 0.0.0.255
+ permit 192.168.66.0 0.0.0.255
+ permit 10.78.0.0 0.0.255.255
+ permit 10.147.64.0 0.0.0.255
+ deny   any log
+!
+!
+access-list 60 permit 192.168.249.227
+access-list 60 permit 192.168.249.7
+snmp-server community REX RW
+snmp-server community enforta RO
+snmp-server community enforta-rw RW
+snmp-server host 192.168.249.227 private 
+snmp-server host 192.168.249.7 private 
+tacacs-server host 10.77.0.26 key 7 14121C0C0A0B383F25
+tacacs-server host 10.66.4.26 key 7 0949400E1F0A05060A
+tacacs-server timeout 1
+banner motd ^C
+   sw.enforta.office
+       ENFORTA  PROPERTY
+  ACCESS AND USE THIS SYSTEM
+  IS RESTRICTED TO AUTHORIZED
+           STAFF ONLY !
+^C
+!
+line con 0
+ exec-timeout 30 0
+line vty 0 4
+ access-class telnet-ssh in
+ exec-timeout 30 0
+ password 7 011608025419120E
+ logging synchronous
+line vty 5 15
+ exec-timeout 30 0
+!
+ntp server 82.114.120.240
+ntp server 82.114.120.20
+end
