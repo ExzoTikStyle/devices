@@ -1,0 +1,253 @@
+! Cisco IOS Software, C3550 Software (C3550-IPSERVICESK9-M), Version 12.2(44)SE1, RELEASE SOFTWARE (fc1)
+! 
+! Image: Software: C3550-IPSERVICESK9-M, 12.2(44)SE1, RELEASE SOFTWARE (fc1)
+! Image: Compiled: Fri 07-Mar-08 00:57 by weiliu
+! Image: flash:/c3550-ipservicesk9-mz.122-44.SE1.bin
+! Chassis type: WS-C3550-24
+! Memory: main 65526K/8192K
+! Processor ID: CAT0745Y1Y0
+! CPU: PowerPC
+! 
+! VTP: VTP Version                     : running VTP1 (VTP2 capable)
+! VTP: Configuration Revision          : 0
+! VTP: Maximum VLANs supported locally : 1005
+! VTP: Number of existing VLANs        : 8
+! VTP: VTP Operating Mode              : Transparent
+! VTP: VTP Domain Name                 : 
+! VTP: VTP Pruning Mode                : Disabled
+! VTP: VTP V2 Mode                     : Disabled
+! VTP: VTP Traps Generation            : Disabled
+! VTP: MD5 digest                      : 0x84 0x03 0x1D 0x0B 0xDE 0x0F 0xB2 0x3D 
+! 
+! NAME: "sw6", DESCR: "Cisco Catalyst 3550 24 10/100 baseT ports + 2 Gig uplinks fixed configuration Layer 2/3 Ethernet Switch"
+! PID: WS-C3550-24-SMI   , VID: J0 , SN: CAT0745Y1Y0
+! 
+! 
+!
+version 12.2
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname sw6
+!
+enable secret 5 $1$gJjB$qHr0G4R5MRB9sf3tNzdc91
+!
+no aaa new-model
+ip subnet-zero
+!
+vtp mode transparent
+!
+password encryption aes
+!
+crypto pki trustpoint TP-self-signed-2197872512
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-2197872512
+ revocation-check none
+ rsakeypair TP-self-signed-2197872512
+!
+!
+crypto pki certificate chain TP-self-signed-2197872512
+ certificate self-signed 01
+  3082023C 308201A5 A0030201 02020101 300D0609 2A864886 F70D0101 04050030 
+  31312F30 2D060355 04031326 494F532D 53656C66 2D536967 6E65642D 43657274 
+  69666963 6174652D 32313937 38373235 3132301E 170D3933 30333031 30303031 
+  30345A17 0D323030 31303130 30303030 305A3031 312F302D 06035504 03132649 
+  4F532D53 656C662D 5369676E 65642D43 65727469 66696361 74652D32 31393738 
+  37323531 3230819F 300D0609 2A864886 F70D0101 01050003 818D0030 81890281 
+  8100FC4B 447E7D5D 09FB51C4 73F56BAE 6C9EF043 9DFA4D02 1F440BBE B1CA2DF7 
+  DF07F2AD ED413B40 DD597EC4 718D36CC 0B75E6D8 CA570425 FB44E6A1 541756E4 
+  2C4956BC 2E2B87E2 9C4684F7 E21901BE FFFC258F DA901477 05EBA950 3C9BB585 
+  0772267A D0156188 2D891EE7 DBFB2031 EE96414C 0771011C 1F6F33E1 AF19C05C 
+  62650203 010001A3 64306230 0F060355 1D130101 FF040530 030101FF 300F0603 
+  551D1104 08300682 04737736 2E301F06 03551D23 04183016 8014AD4C D1C701F7 
+  BF3D5877 69448951 4F0D5236 4DB5301D 0603551D 0E041604 14AD4CD1 C701F7BF 
+  3D587769 4489514F 0D52364D B5300D06 092A8648 86F70D01 01040500 03818100 
+  359C27DA EDA608CC 2C9BD736 6EFFB3A9 78E24999 1169E5B5 7FDA75C9 5840175A 
+  61E4EF11 125E8D3C D4EB3A71 B939F227 E63A1098 83318E20 1B48F6B8 5967E70D 
+  9D7C5E52 9FBD7546 D03CBB9A F341D98B F44B84FA DDE43E6B 740C853B 0CB75A08 
+  E0EF3377 B1AB652E 344D0F6B 6A0F45C7 850A2FAB B39D1150 EA86AD7A 70504886
+  quit
+!
+!
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+vlan internal allocation policy ascending
+!
+vlan 10
+ name officeinet
+!
+vlan 15
+ name videonabludenie
+!
+vlan 50
+ name unifi-guest
+!
+vlan 3052
+ name erth81
+!
+vlan 3053
+ name erth82
+!
+!
+! 
+!
+!
+!
+interface FastEthernet0/1
+ description erth81
+ switchport access vlan 3052
+ switchport mode access
+!
+interface FastEthernet0/2
+ description erth81
+ switchport access vlan 3052
+ switchport mode access
+!
+interface FastEthernet0/3
+ description erth81
+ switchport access vlan 3052
+ switchport mode access
+!
+interface FastEthernet0/4
+ description erth81
+ switchport access vlan 3052
+ switchport mode access
+!
+interface FastEthernet0/5
+ description erth81
+ switchport access vlan 3052
+ switchport mode access
+!
+interface FastEthernet0/6
+ description erth81
+ switchport access vlan 3052
+ switchport mode access
+!
+interface FastEthernet0/7
+ description erth81
+ switchport access vlan 3052
+ switchport mode access
+!
+interface FastEthernet0/8
+ description erth81
+ switchport access vlan 3052
+ switchport mode access
+!
+interface FastEthernet0/9
+ description erth81
+ switchport access vlan 3052
+ switchport mode access
+!
+interface FastEthernet0/10
+ description erth81
+ switchport access vlan 3052
+ switchport mode access
+!
+interface FastEthernet0/11
+ description erth81
+ switchport access vlan 3052
+ switchport mode access
+!
+interface FastEthernet0/12
+ description erth81
+ switchport access vlan 3052
+ switchport mode access
+!
+interface FastEthernet0/13
+ description erth81
+ switchport access vlan 3052
+ switchport mode access
+!
+interface FastEthernet0/14
+ description erth81
+ switchport access vlan 3052
+ switchport mode access
+!
+interface FastEthernet0/15
+ description erth81
+ switchport access vlan 3052
+ switchport mode access
+!
+interface FastEthernet0/16
+ description erth81
+ switchport access vlan 3052
+ switchport mode access
+!
+interface FastEthernet0/17
+ description erth81
+ switchport access vlan 3052
+ switchport mode access
+!
+interface FastEthernet0/18
+ description erth81
+ switchport access vlan 3052
+ switchport mode access
+!
+interface FastEthernet0/19
+ description erth81
+ switchport access vlan 3052
+ switchport mode access
+!
+interface FastEthernet0/20
+ description erth81
+ switchport access vlan 3052
+ switchport mode access
+!
+interface FastEthernet0/21
+ description erth81
+ switchport access vlan 3052
+ switchport mode access
+!
+interface FastEthernet0/22
+ description printer
+ switchport access vlan 10
+ switchport mode access
+!
+interface FastEthernet0/23
+ description unifi+guest
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 10
+ switchport trunk allowed vlan 10,50,3053
+ switchport mode trunk
+!
+interface FastEthernet0/24
+ description uplink
+ switchport trunk encapsulation dot1q
+ switchport trunk allowed vlan 10,15,50,3052,3053
+ switchport mode trunk
+!
+interface GigabitEthernet0/1
+ switchport mode dynamic desirable
+!
+interface GigabitEthernet0/2
+ switchport mode dynamic desirable
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+interface Vlan10
+ ip address 10.147.64.25 255.255.255.0
+!
+ip classless
+ip route 0.0.0.0 0.0.0.0 10.147.64.1
+ip http server
+ip http secure-server
+!
+!
+!
+control-plane
+!
+!
+line con 0
+line vty 0 4
+ password enfortit
+ login
+line vty 5 15
+ login
+!
+end
+
