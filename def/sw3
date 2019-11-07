@@ -1,16 +1,16 @@
 # 
 # Device Type        : DES-3028P Fast Ethernet Switch
-# MAC Address        : 34-08-04-34-59-D0
-# IP Address         : 10.147.64.3 (Manual)
-# VLAN Name          : office
+# MAC Address        : 34-08-04-34-59-C7
+# IP Address         : 10.147.64.4 (Manual)
+# VLAN Name          : managment
 # Subnet Mask        : 255.255.255.0
 # Default Gateway    : 10.147.64.1
 # Boot PROM Version  : Build 1.00.B06
 # Firmware Version   : Build 2.80.B11
 # Hardware Version   : A2
-# Serial Number      : P1D22B3000668
-# System Name        : sw2.spb.office
-# System Location    : sw2.spb.office
+# Serial Number      : P1D22B3000667
+# System Name        : sw3.office.spb
+# System Location    : sw3.office.spb
 # System Contact     :
 # Spanning Tree      : Disabled
 # GVRP               : Disabled
@@ -186,16 +186,21 @@ config ssl cachetimeout 600
 
 # PORT
 
-config ports 1,3-7,10,15,18 speed auto flow_control disable state enable description "mpp"
+config ports 1 speed auto flow_control disable state enable description "AM"
 config ports 1-28 learning enable
 config ports 1-28 mdix auto
-config ports 2,8-9,11-14,16,19-22,24,26,28 speed auto flow_control disable state enable clear_description
-config ports 17 speed auto flow_control disable state enable description "kdr"
-config ports 23 speed auto flow_control disable state enable description "do"
+config ports 2,6,17 speed auto flow_control disable state enable description "HR"
+config ports 3,5,7 speed auto flow_control disable state enable description "spr"
+config ports 4 speed auto flow_control disable state enable description "hr"
+config ports 8,14,16,19,26,28 speed auto flow_control disable state enable clear_description
+config ports 9,11,27 speed auto flow_control disable state enable description "am"
+config ports 10,12,15,23 speed auto flow_control disable state enable description "buh"
+config ports 13 speed auto flow_control disable state enable description "OFM"
+config ports 18,20 speed auto flow_control disable state enable description "fm"
+config ports 21-22,24 speed auto flow_control disable state enable description "ofm-kabinet"
 config ports 25-26 medium_type fiber speed auto flow_control disable state enable clear_description
 config ports 25-26 medium_type fiber learning enable
-config ports 25 speed auto flow_control disable state enable description "r1.ofice.Gig0/1"
-config ports 27 speed auto flow_control disable state enable description "to 10.147.64.4"
+config ports 25 speed auto flow_control disable state enable description "uplink from sw 10.147.64.3"
 
 # OAM
 
@@ -230,8 +235,8 @@ enable snmp linkchange_traps
 config snmp linkchange_traps ports all enable
 config snmp coldstart_traps enable
 config snmp warmstart_traps enable
-config snmp system_name sw2.spb.office
-config snmp system_location sw2.spb.office
+config snmp system_name sw3.office.spb
+config snmp system_location sw3.office.spb
 disable rmon
 
 # SNMPv3
@@ -246,7 +251,7 @@ delete snmp group public
 delete snmp group private
 delete snmp group ReadGroup
 delete snmp group WriteGroup
-config snmp engineID 800000ab033408043459d0
+config snmp engineID 800000ab033408043459c7
 create snmp view restricted 1.3.6.1.2.1.1 view_type included
 create snmp view restricted 1.3.6.1.2.1.11 view_type included
 create snmp view restricted 1.3.6.1.6.3.10.2.1 view_type included
@@ -276,36 +281,25 @@ debug config error_reboot enable
 
 disable asymmetric_vlan
 disable qinq
-config vlan default delete 1-27
-config vlan default add forbidden 1-27
+config vlan default delete 1-24,26-28
+config vlan default add tagged 25
 config vlan default advertisement enable
-create vlan Office_FAX tag 4
-config vlan Office_FAX add tagged 27-28
-create vlan office tag 10
-config vlan office add tagged 25,27-28
-config vlan office add untagged 2,11,14,19-22,24
-create vlan videonabludenie tag 15
-create vlan RDNet_vl500 tag 500
-config vlan RDNet_vl500 add tagged 27-28
-create vlan RDNet800 tag 800
-config vlan RDNet800 add tagged 27-28
-create vlan RDNet822 tag 822
-config vlan RDNet822 add tagged 27-28
-create vlan erthRL tag 2000
-config vlan erthRL add tagged 25,27-28
+create vlan Office-FAX tag 4
+config vlan Office-FAX add tagged 25
+config vlan Office-FAX add untagged 28
+create vlan managment tag 10
+config vlan managment add tagged 25
+config vlan managment add untagged 2,8,14,16,19,26
 create vlan erth80 tag 3051
-config vlan erth80 add tagged 27-28
-config vlan erth80 add untagged 1,3-10,12-13,15-18,23,26
-create vlan erth81 tag 3052
-config vlan erth81 add tagged 27-28
-create vlan erth82 tag 3053
-config vlan erth82 add tagged 27-28
+config vlan erth80 add tagged 25
+config vlan erth80 add untagged 1,3-7,9-13,15,17-18,20-24,27
 create vlan rdnet tag 3339
-config vlan rdnet add tagged 27-28
+config vlan rdnet add tagged 25
 disable gvrp
-config gvrp 1,3-10,12-13,15-18,23,26 state disable ingress_checking enable acceptable_frame admit_all pvid 3051
-config gvrp 2,11,14,19-22,24 state disable ingress_checking enable acceptable_frame admit_all pvid 10
-config gvrp 25,27-28 state disable ingress_checking enable acceptable_frame admit_all pvid 1
+config gvrp 1,3-7,9-13,15,17-18,20-24,27 state disable ingress_checking enable acceptable_frame admit_all pvid 3051
+config gvrp 2,8,14,16,19,26 state disable ingress_checking enable acceptable_frame admit_all pvid 10
+config gvrp 25 state disable ingress_checking enable acceptable_frame admit_all pvid 1
+config gvrp 28 state disable ingress_checking enable acceptable_frame admit_all pvid 4
 
 # 8021X
 
@@ -343,7 +337,7 @@ disable stp
 config stp version rstp
 config stp maxage 20 maxhops 20 forwarddelay 15 txholdcount 6 fbpdu enable hellotime 2 lbd enable lbd_recover_timer 60
 config stp priority 32768 instance_id 0
-config stp mst_config_id name 34:08:04:34:59:D0 revision_level 0
+config stp mst_config_id name 34:08:04:34:59:C7 revision_level 0
 config stp trap new_root enable topo_change enable
 config stp ports 1-28 externalCost auto edge false p2p auto state enable lbd disable
 config stp mst_ports 1-28 instance_id 0 internalCost auto priority 128
@@ -402,26 +396,12 @@ disable igmp_snooping multicast_vlan
 config igmp_snooping vlan_name default host_timeout 260 router_timeout 260 leave_timer 2 state disable fast_leave disable
 config igmp_snooping data_driven_learning vlan_name default aged_out disable
 config igmp_snooping querier all query_interval 125 max_response_time 10 robustness_variable 2 last_member_query_interval 1 state disable
-config igmp_snooping vlan_name Office_FAX host_timeout 260 router_timeout 260 leave_timer 2 state disable fast_leave disable
-config igmp_snooping data_driven_learning vlan_name Office_FAX aged_out disable
-config igmp_snooping vlan_name office host_timeout 260 router_timeout 260 leave_timer 2 state disable fast_leave disable
-config igmp_snooping data_driven_learning vlan_name office aged_out disable
-config igmp_snooping vlan_name videonabludenie host_timeout 260 router_timeout 260 leave_timer 2 state disable fast_leave disable
-config igmp_snooping data_driven_learning vlan_name videonabludenie aged_out disable
-config igmp_snooping vlan_name RDNet_vl500 host_timeout 260 router_timeout 260 leave_timer 2 state disable fast_leave disable
-config igmp_snooping data_driven_learning vlan_name RDNet_vl500 aged_out disable
-config igmp_snooping vlan_name RDNet800 host_timeout 260 router_timeout 260 leave_timer 2 state disable fast_leave disable
-config igmp_snooping data_driven_learning vlan_name RDNet800 aged_out disable
-config igmp_snooping vlan_name RDNet822 host_timeout 260 router_timeout 260 leave_timer 2 state disable fast_leave disable
-config igmp_snooping data_driven_learning vlan_name RDNet822 aged_out disable
-config igmp_snooping vlan_name erthRL host_timeout 260 router_timeout 260 leave_timer 2 state disable fast_leave disable
-config igmp_snooping data_driven_learning vlan_name erthRL aged_out disable
+config igmp_snooping vlan_name Office-FAX host_timeout 260 router_timeout 260 leave_timer 2 state disable fast_leave disable
+config igmp_snooping data_driven_learning vlan_name Office-FAX aged_out disable
+config igmp_snooping vlan_name managment host_timeout 260 router_timeout 260 leave_timer 2 state disable fast_leave disable
+config igmp_snooping data_driven_learning vlan_name managment aged_out disable
 config igmp_snooping vlan_name erth80 host_timeout 260 router_timeout 260 leave_timer 2 state disable fast_leave disable
 config igmp_snooping data_driven_learning vlan_name erth80 aged_out disable
-config igmp_snooping vlan_name erth81 host_timeout 260 router_timeout 260 leave_timer 2 state disable fast_leave disable
-config igmp_snooping data_driven_learning vlan_name erth81 aged_out disable
-config igmp_snooping vlan_name erth82 host_timeout 260 router_timeout 260 leave_timer 2 state disable fast_leave disable
-config igmp_snooping data_driven_learning vlan_name erth82 aged_out disable
 config igmp_snooping vlan_name rdnet host_timeout 260 router_timeout 260 leave_timer 2 state disable fast_leave disable
 config igmp_snooping data_driven_learning vlan_name rdnet aged_out disable
 config igmp access_authentication port 1-28 state disable
@@ -487,7 +467,7 @@ config address_binding dhcp_snoop max_entry ports 1-28 limit 5
 
 # IP
 
-config ipif System vlan office ipaddress 10.147.64.3/24 state enable
+config ipif System vlan managment ipaddress 10.147.64.4/24 state enable
 config ipif System dhcp_option12 state disable
 enable telnet 23
 enable web 80
