@@ -1,0 +1,69 @@
+#        routerboard: yes
+#              model: 951Ui-2HnD
+#      serial-number: 7BCC07FA17E6
+#      firmware-type: ar9344
+#   factory-firmware: 3.33
+#   current-firmware: 3.33
+#   upgrade-firmware: 6.42.12
+#             channel: stable
+#   installed-version: 6.42.12
+# software id = IIAE-CIT1
+#
+# model = 951Ui-2HnD
+# serial number = 7BCC07FA17E6
+/interface bridge
+add mtu=1500 name=bridge-VOIP protocol-mode=none
+add mtu=1500 name=bridge-of protocol-mode=none
+add mtu=1600 name=hotspot
+/interface eoip
+add !keepalive local-address=10.29.200.10 mac-address=02:BB:FA:FD:3E:7C mtu=1500 name="id=1011.eoip.Office-2.Novgor.32" remote-address=10.29.0.234 tunnel-id=1011
+/interface vlan
+add interface="id=1011.eoip.Office-2.Novgor.32" name="eoip.id=1011.vlan103" vlan-id=103
+add interface="id=1011.eoip.Office-2.Novgor.32" name="eoip.id=1011.vlan99" vlan-id=99
+add interface=ether1 name=eth1.100 vlan-id=100
+/interface wireless security-profiles
+set [ find default=yes ] supplicant-identity=MikroTik
+add authentication-types=wpa2-psk eap-methods="" management-protection=allowed mode=dynamic-keys name=profile1 supplicant-identity="" wpa2-pre-shared-key=enfortit29
+/interface wireless
+set [ find default-name=wlan1 ] disabled=no mode=ap-bridge security-profile=profile1 ssid=Enforta-ARH-Office
+add disabled=no keepalive-frames=disabled mac-address=66:D1:54:D7:8C:23 master-interface=wlan1 multicast-buffering=disabled name=HS ssid=ARH-WIFI wds-cost-range=0 wds-default-cost=0 wps-mode=disabled
+/ip pool
+add name=pool-of ranges=10.147.29.105-10.147.29.199
+add name=hs ranges=172.18.0.2-172.18.0.254
+/ip dhcp-server
+add address-pool=pool-of authoritative=after-2sec-delay disabled=no interface=bridge-of lease-time=1h name=dhcp-of
+add address-pool=hs authoritative=after-2sec-delay disabled=no interface=hotspot lease-time=1h name=hotspot
+/snmp community
+add addresses=::/0 name=engforta
+add addresses=::/0 name=enfortit write-access=yes
+/interface bridge port
+add bridge=bridge-VOIP interface=ether2
+add bridge=bridge-VOIP interface=ether3
+add bridge=bridge-VOIP interface=ether4
+add bridge=bridge-VOIP interface="eoip.id=1011.vlan103"
+add bridge=bridge-of interface=wlan1
+add bridge=bridge-of interface="eoip.id=1011.vlan99"
+add bridge=bridge-of interface=ether5
+add bridge=hotspot interface=HS
+/ip address
+add address=10.29.200.10/24 interface=eth1.100 network=10.29.200.0
+add address=10.147.29.203/24 interface="eoip.id=1011.vlan99" network=10.147.29.0
+add address=172.18.0.1/24 interface=hotspot network=172.18.0.0
+/ip dhcp-server lease
+add address=10.147.29.161 client-id=1:74:e5:43:69:4e:d8 mac-address=74:E5:43:69:4E:D8 server=dhcp-of
+add address=10.147.29.116 client-id=1:0:3:d6:4:3b:c4 mac-address=00:03:D6:04:3B:C4 server=dhcp-of
+/ip dhcp-server network
+add address=10.147.29.0/24 dns-server=192.168.66.66,10.77.0.141 domain=corp.ertelecom.loc gateway=10.147.29.1 netmask=24
+add address=172.18.0.0/24 gateway=172.18.0.1
+/ip route
+add distance=1 gateway=10.29.200.1
+add distance=1 dst-address=10.0.0.0/8 gateway=10.29.200.1
+add distance=1 dst-address=192.168.66.0/24 gateway=10.29.200.1
+/snmp
+set enabled=yes
+/system clock
+set time-zone-name=Asia/Krasnoyarsk
+/system ntp client
+set enabled=yes primary-ntp=192.168.66.25
+/system watchdog
+set watchdog-timer=no
