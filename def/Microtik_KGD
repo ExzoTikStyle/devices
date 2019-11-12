@@ -1,0 +1,142 @@
+#        routerboard: yes
+#              model: 951Ui-2HnD
+#      serial-number: 4AC704934864
+#      firmware-type: ar9344
+#   factory-firmware: 3.16
+#   current-firmware: 3.33
+#   upgrade-firmware: 3.33
+#             channel: current
+#   installed-version: 6.38.7
+# software id = DDHK-2WG4
+#
+/interface bridge
+add name=bridge-hotspot
+add name=bridge-local
+/interface ethernet
+set [ find default-name=ether1 ] loop-protect=off
+set [ find default-name=ether2 ] loop-protect=off
+set [ find default-name=ether3 ] loop-protect=off
+set [ find default-name=ether4 ] disabled=yes
+set [ find default-name=ether5 ] disabled=yes poe-out=forced-on
+/interface wireless
+set [ find default-name=wlan1 ] band=2ghz-b/g/n country=zimbabwe disabled=no frequency=2432 mode=ap-bridge name=local ssid=Enforta-KGD
+/interface vlan
+add disabled=yes interface=ether1 name=vlan98 vlan-id=98
+/interface wireless security-profiles
+set [ find default=yes ] supplicant-identity=MikroTik
+add authentication-types=wpa-psk,wpa2-psk eap-methods="" management-protection=allowed mode=dynamic-keys name=wpa-psk supplicant-identity="" wpa-pre-shared-key=enfortit39 wpa2-pre-shared-key=enfortit39
+/ip hotspot profile
+add dns-name=enforta.ru hotspot-address=192.100.0.1 html-directory=enforta_hotspot login-by=http-chap,http-pap name=hsprof1 use-radius=yes
+/ip ipsec proposal
+set [ find default=yes ] enc-algorithms=aes-128-cbc
+/ip pool
+add name=dhcp_pool1 ranges=192.100.0.2-192.100.0.254
+add name=dhcp ranges=10.147.39.50-10.147.39.110
+/ip dhcp-server
+add address-pool=dhcp_pool1 disabled=no interface=bridge-hotspot lease-time=1h name=dhcp1
+add address-pool=dhcp disabled=no interface=ether1 lease-time=1d name=server-dhcp-of
+/ip hotspot
+add address-pool=dhcp_pool1 disabled=no interface=bridge-hotspot name=hotspot1 profile=hsprof1
+/queue simple
+add name=free-limit target=192.100.0.0/24
+/snmp community
+set [ find default=yes ] read-access=no
+add addresses=0.0.0.0/0 name=engforta
+/interface bridge port
+add bridge=bridge-hotspot interface=local
+/ip address
+add address=192.100.0.1/24 interface=bridge-hotspot network=192.100.0.0
+add address=10.39.100.1/23 interface=vlan98 network=10.39.100.0
+add address=10.147.39.14/24 interface=ether1 network=10.147.39.0
+add address=192.168.88.2/24 disabled=yes interface=bridge-local network=192.168.88.0
+/ip dhcp-client
+add default-route-distance=0 dhcp-options=hostname,clientid interface=ether1
+/ip dhcp-server lease
+add address=10.147.39.81 client-id=1:0:30:67:aa:f1:23 mac-address=00:30:67:AA:F1:23 server=server-dhcp-of
+add address=10.147.39.85 client-id=1:20:cf:30:82:ad:87 mac-address=20:CF:30:82:AD:87 server=server-dhcp-of
+add address=10.147.39.46 always-broadcast=yes client-id=1:0:30:67:aa:f0:fc mac-address=00:30:67:AA:F0:FC server=server-dhcp-of
+add address=10.147.39.58 client-id=1:f4:6d:4:87:28:b2 mac-address=F4:6D:04:87:28:B2 server=server-dhcp-of
+add address=10.147.39.89 client-id=1:1c:4b:d6:d6:6a:48 mac-address=1C:4B:D6:D6:6A:48 server=server-dhcp-of
+/ip dhcp-server network
+add address=10.147.39.0/24 boot-file-name="x86pc\\undi\\provwin\\startrom.0" dns-server=192.168.66.66,10.77.0.141 gateway=10.147.39.1 netmask=24 next-server=10.147.39.8
+add address=192.100.0.0/24 dns-server=87.241.223.68,81.17.2.171,8.8.8.8 gateway=192.100.0.1
+/ip dns
+set servers=87.241.223.68,81.17.2.171,8.8.8.8
+/ip firewall filter
+add action=accept chain=forward
+add action=accept chain=input
+add action=accept chain=output
+add action=passthrough chain=unused-hs-chain comment="place hotspot rules here" disabled=yes
+add action=reject chain=forward dst-address=172.16.0.0/12 reject-with=icmp-network-unreachable src-address=192.100.0.0/24
+add action=reject chain=forward dst-address=10.0.0.0/8 reject-with=icmp-network-unreachable src-address=192.100.0.0/24
+add action=reject chain=forward dst-address=192.168.0.0/16 reject-with=icmp-network-unreachable src-address=192.100.0.0/24
+/ip firewall nat
+add action=passthrough chain=unused-hs-chain comment="place hotspot rules here" disabled=yes
+add action=masquerade chain=srcnat comment="masquerade hotspot network" src-address=192.100.0.0/24
+add action=masquerade chain=srcnat src-address=10.147.39.0/24
+/ip hotspot user
+add name=admin
+/ip hotspot walled-garden
+add dst-host=*.enforta.ru
+add dst-host=*.akamaitechnologies.com
+add dst-host=www.appleiphonecell.com
+add dst-host=www.airport.us
+add dst-host=*apple.com
+add dst-host=www.itools.info
+add dst-host=www.ibook.info
+add dst-host=www.thinkdifferent.us
+add dst-host=*.apple.com.edgekey.net
+add dst-host=*.akamaiedge.net
+add dst-host=*.akamaitechnologies.com
+add dst-host=*.google.*
+add dst-host=*.yandex.ru
+add dst-host=go.mail.ru
+add dst-host=search.mail.ru
+/ip route
+add distance=1 gateway=10.147.39.1
+add comment=firewallVoice distance=1 dst-address=10.192.117.0/24 type=blackhole
+add comment=firewallVoice distance=1 dst-address=10.192.118.0/24 type=blackhole
+add comment=firewallVoice distance=1 dst-address=10.192.119.0/24 type=blackhole
+add comment=firewallVoice distance=1 dst-address=10.194.0.0/16 type=blackhole
+add comment=firewallVoice distance=1 dst-address=172.24.0.0/16 type=blackhole
+add comment=firewallVoice distance=1 dst-address=172.25.0.0/16 type=blackhole
+add comment=firewallVoice distance=1 dst-address=172.26.0.0/16 type=blackhole
+add comment=firewallVoice distance=1 dst-address=172.27.0.0/16 type=blackhole
+add comment=firewallVoice distance=1 dst-address=172.28.0.0/16 type=blackhole
+add comment=firewallVoice distance=1 dst-address=172.29.0.0/16 type=blackhole
+add comment=firewallVoice distance=1 dst-address=172.30.0.0/16 type=blackhole
+/ip service
+set telnet address=10.0.0.0/8,192.168.0.0/16,80.244.224.0/24,81.17.2.0/24,82.114.116.0/24
+set ftp address=10.0.0.0/8,192.168.0.0/16,80.244.224.0/24,81.17.2.0/24,82.114.116.0/24
+set www address=10.0.0.0/8,192.168.0.0/16,80.244.224.0/24,81.17.2.0/24,82.114.116.0/24
+set ssh address=10.0.0.0/8,192.168.0.0/16,80.244.224.0/24,81.17.2.0/24,82.114.116.0/24
+set api disabled=yes
+set winbox address=10.0.0.0/8,192.168.0.0/16,80.244.224.0/24,81.17.2.0/24,82.114.116.0/24
+set api-ssl disabled=yes
+/port firmware
+set directory=pub ignore-directip-modem=yes
+/radius
+add address=185.12.28.167 secret=enforta1242-8201-service_36Cloud service=hotspot timeout=2s
+/snmp
+set enabled=yes trap-community=engforta trap-target=10.77.0.16
+/system clock
+set time-zone-autodetect=no
+/system identity
+set name=enforta-free-kgd-001
+/system leds
+set 0 interface=local leds=wlan-led type=wireless-status
+set 1 interface=ether1 leds=led1
+set 2 interface=ether2 leds=led2
+set 3 interface=ether3 leds=led3
+set 4 interface=ether4 leds=led4
+set 5 interface=ether5 leds=led5 type=interface-activity
+/system logging
+set 3 disabled=yes
+/system routerboard settings
+set init-delay=0s
+/system scheduler
+add interval=5m name=radius-ping on-event="/system script run radius-ping" policy=ftp,reboot,read,write,policy,test,password,sniff,sensitive start-time=startup
+/system script
+add name=radius-ping owner=admin policy=ftp,reboot,read,write,policy,test,password,sniff,sensitive source=":if ([/ping 185.12.28.167 count=12 interval=5 size=28] < 10) do={/snmp send-trap oid=1.3.6.1.4.1.14988.1.1.9 type=counter value=1} else={/snmp send-trap oid=1.3.6.1.4.1.14988.1.1.9 type=counter value=0}"
+/tool sniffer
+set file-name=26.12 filter-interface=ether1 filter-ip-protocol=0 filter-mac-address=7C:2F:80:5F:C5:87/FF:FF:FF:FF:FF:FF filter-mac-protocol=arp memory-limit=1000KiB
