@@ -1,0 +1,136 @@
+#        routerboard: yes
+#              model: 951Ui-2HnD
+#      serial-number: 4AC704409820
+#      firmware-type: ar9344
+#   factory-firmware: 3.12
+#   current-firmware: 3.18
+#   upgrade-firmware: 3.33
+#             channel: current
+#   installed-version: 6.38.7
+#              status: finding out latest version...
+# software id = T00C-I947
+#
+/interface bridge
+add mtu=1500 name=bridge-of protocol-mode=none
+add mtu=1500 name=bridge_hotspot
+/interface ethernet
+set [ find default-name=ether3 ] master-port=ether2
+set [ find default-name=ether4 ] master-port=ether2
+set [ find default-name=ether5 ] master-port=ether2
+/ip neighbor discovery
+set ether1 discover=no
+/interface wireless security-profiles
+set [ find default=yes ] supplicant-identity=MikroTik
+add authentication-types=wpa2-psk management-protection=allowed mode=dynamic-keys name=profile1 wpa2-pre-shared-key=enfortit29
+/interface wireless
+set [ find default-name=wlan1 ] band=2ghz-b/g/n channel-width=20/40mhz-Ce disabled=no distance=indoors frequency=2417 mode=ap-bridge security-profile=profile1 ssid=Enforta-ARH
+add disabled=no mac-address=4E:5E:0C:59:2C:39 master-interface=wlan1 mode=ap-bridge name=HS ssid="5G WiFi" wds-default-bridge=bridge-of wps-mode=disabled
+/ip hotspot profile
+add hotspot-address=172.17.0.1 html-directory=enforta_hotspot login-by=http-chap,http-pap name=hsprof1 use-radius=yes
+/ip hotspot user profile
+set [ find default=yes ] keepalive-timeout=20m
+/ip ipsec proposal
+set [ find default=yes ] enc-algorithms=aes-128-cbc
+/ip pool
+add name=default-dhcp ranges=192.168.88.10-192.168.88.254
+add name=dhcp_pool1 ranges=172.16.0.2-172.16.0.254
+add name=dhcp ranges=172.16.0.50
+add name=hs-pool-1 ranges=172.17.0.2-172.17.0.254
+add name=pool-of ranges=10.147.29.50-10.147.29.99
+/ip dhcp-server
+add address-pool=hs-pool-1 disabled=no interface=bridge_hotspot lease-time=1h name=dhcp1
+add address-pool=pool-of disabled=no interface=bridge-of lease-time=1d name=dhcp-of
+/ip hotspot
+add address-pool=hs-pool-1 disabled=no interface=bridge_hotspot name=hotspot1 profile=hsprof1
+/queue simple
+add max-limit=1890k/1980k name=queue1 target=192.168.88.254/32
+/snmp community
+set [ find default=yes ] name=engforta
+/interface bridge port
+add bridge=bridge-of interface=ether1
+add bridge=bridge_hotspot interface=HS
+add bridge=bridge-of interface=wlan1
+/ip address
+add address=192.168.88.1/24 comment="default configuration" interface=ether2 network=192.168.88.0
+add address=10.147.29.250/24 interface=ether1 network=10.147.29.0
+add address=172.17.0.1/24 interface=bridge_hotspot network=172.17.0.0
+/ip dhcp-server lease
+add address=10.147.29.50 client-id=1:74:e5:43:69:4e:d8 mac-address=74:E5:43:69:4E:D8 server=dhcp-of
+add address=10.147.29.51 always-broadcast=yes client-id=1:8:60:6e:e4:de:4e mac-address=08:60:6E:E4:DE:4E server=dhcp-of
+add address=10.147.29.52 always-broadcast=yes client-id=1:70:8b:cd:bd:af:cb mac-address=70:8B:CD:BD:AF:CB server=dhcp-of
+add address=10.147.29.54 mac-address=30:85:A9:F0:B7:F0 server=dhcp-of
+/ip dhcp-server network
+add address=10.147.29.0/24 boot-file-name="x86pc\\undi\\provwin\\startrom.0" dns-server=192.168.66.66,10.77.0.141 domain=corp.ertelecom.loc gateway=10.147.29.1 netmask=24 next-server=10.147.29.51
+add address=172.17.0.0/24 gateway=172.17.0.1
+/ip dns
+set allow-remote-requests=yes servers=87.241.223.68,81.17.2.171
+/ip dns static
+add address=192.168.88.1 name=router
+/ip firewall filter
+add action=passthrough chain=unused-hs-chain comment="place hotspot rules here" disabled=yes
+add action=drop chain=input dst-port=23,22,8291 in-interface=bridge_hotspot protocol=tcp
+# in/out-interface matcher not possible when interface (ether1) is slave - use ma
+ster instead (bridge-of)
+add action=drop chain=input dst-port=53 in-interface=ether1 protocol=udp
+# in/out-interface matcher not possible when interface (ether1) is slave - use ma
+ster instead (bridge-of)
+add action=drop chain=input dst-port=53 in-interface=ether1 protocol=tcp
+/ip firewall nat
+add action=passthrough chain=unused-hs-chain comment="place hotspot rules here" disabled=yes
+add action=masquerade chain=srcnat src-address=172.17.0.0/24
+add action=masquerade chain=srcnat src-address=10.147.29.0/24
+/ip hotspot user
+add name=admin
+/ip hotspot walled-garden
+add dst-host=*.enforta.ru
+add dst-host=*.akamaitechnologies.com
+add dst-host=www.appleiphonecell.com
+add dst-host=www.airport.us
+add dst-host=*apple.com
+add dst-host=www.itools.info
+add dst-host=www.ibook.info
+add dst-host=www.thinkdifferent.us
+add dst-host=*.apple.com.edgekey.net
+add dst-host=*.akamaiedge.net
+add dst-host=*.akamaitechnologies.com
+/ip ipsec policy
+set 0 dst-address=0.0.0.0/0 src-address=0.0.0.0/0
+/ip proxy
+set cache-path=web-proxy1
+/ip route
+add distance=1 gateway=10.147.29.1
+/radius
+add address=185.12.28.167 secret=enforta1242-8201-service_36Cloud service=hotspot timeout=2s
+/snmp
+set enabled=yes trap-version=2
+/system clock
+set time-zone-autodetect=no time-zone-name=Europe/Moscow
+/system clock manual
+set time-zone=+03:00
+/system identity
+set name=enforta-free-arh-001
+/system leds
+set 0 interface=wlan1 leds=wlan-led type=wireless-status
+set 1 interface=ether1 leds=led1
+set 2 interface=ether2 leds=led2
+set 3 interface=ether3 leds=led3
+set 4 interface=ether4 leds=led4
+set 5 interface=ether5 leds=led5 type=interface-activity
+/system logging
+set 3 disabled=yes
+/tool mac-server
+set [ find default=yes ] disabled=yes
+add interface=ether2
+add interface=ether3
+add interface=ether4
+add interface=ether5
+add interface=wlan1
+add interface=bridge_hotspot
+/tool mac-server mac-winbox
+set [ find default=yes ] disabled=yes
+add interface=ether2
+add interface=ether3
+add interface=ether4
+add interface=ether5
+add interface=wlan1
+add interface=bridge_hotspot
