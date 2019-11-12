@@ -1,0 +1,35 @@
+#        routerboard: yes
+#              model: 951Ui-2HnD
+#           revision: r2
+#      serial-number: B8630ABE0BD4
+#      firmware-type: ar9344
+#   factory-firmware: 6.43.2
+#   current-firmware: 6.44.4
+#   upgrade-firmware: 6.44.4
+#             channel: stable
+#   installed-version: 6.44.4
+#              status: ERROR: could not resolve dns name
+# Flags: U - undoable, R - redoable, F - floating-undo 
+#   ACTION                                   BY               POLICY             
+# software id = P6TI-I2SX
+#
+# model = 951Ui-2HnD
+# serial number = B8630ABE0BD4
+/interface bridge
+add name=bridge1
+/interface vlan
+add interface=ether2 name=VKS_VLAN vlan-id=306
+/interface wireless security-profiles
+set [ find default=yes ] supplicant-identity=MikroTik
+add authentication-types=wpa2-psk mode=dynamic-keys name=wlan1-Enforta-ARH-Office-repeater supplicant-identity=MikroTik wpa2-pre-shared-key=enfortit29
+/interface wireless
+set [ find default-name=wlan1 ] disabled=no mode=station-bridge security-profile=wlan1-Enforta-ARH-Office-repeater ssid=Enforta-ARH-Office
+add disabled=no mac-address=76:4D:28:D6:46:32 master-interface=wlan1 name=wlan2 security-profile=wlan1-Enforta-ARH-Office-repeater ssid=Enforta-ARH-Office
+/interface bridge port
+add bridge=bridge1 interface=wlan1
+add bridge=bridge1 interface=wlan2
+add bridge=bridge1 interface=all
+/ip address
+add address=10.147.29.204/24 interface=bridge1 network=10.147.29.0
+/ip route
+add distance=1 gateway=10.147.29.1
