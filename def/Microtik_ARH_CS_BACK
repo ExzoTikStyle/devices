@@ -9,8 +9,6 @@
 #             channel: stable
 #   installed-version: 6.44.4
 #              status: ERROR: could not resolve dns name
-# Flags: U - undoable, R - redoable, F - floating-undo 
-#   ACTION                                   BY               POLICY             
 # software id = P6TI-I2SX
 #
 # model = 951Ui-2HnD
