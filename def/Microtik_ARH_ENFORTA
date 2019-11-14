@@ -12,13 +12,22 @@
 #
 /interface bridge
 add mtu=1500 name=bridge-of protocol-mode=none
+add mtu=1500 name=bridge-rootlan_vlan3016 protocol-mode=none
+add mtu=1500 name=bridge-rootlan_vlan3017 protocol-mode=none
 add mtu=1500 name=bridge_hotspot
 /interface ethernet
 set [ find default-name=ether3 ] master-port=ether2
 set [ find default-name=ether4 ] master-port=ether2
 set [ find default-name=ether5 ] master-port=ether2
+/interface eoip
+add !keepalive local-address=10.147.29.250 mac-address=02:B1:7D:88:0D:45 mtu=1500 name="id=777.to.office.Abramova.7" remote-address=10.147.29.203 tunnel-id=777
 /ip neighbor discovery
 set ether1 discover=no
+/interface vlan
+add interface="id=777.to.office.Abramova.7" name="eoip.id=777.vlan3016" vlan-id=3016
+add interface="id=777.to.office.Abramova.7" name="eoip.id=777.vlan3017" vlan-id=3017
+add interface=ether1 name=eth1.3016 vlan-id=3016
+add interface=ether1 name=eth1.3017 vlan-id=3017
 /interface wireless security-profiles
 set [ find default=yes ] supplicant-identity=MikroTik
 add authentication-types=wpa2-psk management-protection=allowed mode=dynamic-keys name=profile1 wpa2-pre-shared-key=enfortit29
@@ -50,6 +59,10 @@ set [ find default=yes ] name=engforta
 add bridge=bridge-of interface=ether1
 add bridge=bridge_hotspot interface=HS
 add bridge=bridge-of interface=wlan1
+add bridge=bridge-rootlan_vlan3016 interface="eoip.id=777.vlan3016"
+add bridge=bridge-rootlan_vlan3016 interface=eth1.3016
+add bridge=bridge-rootlan_vlan3017 interface="eoip.id=777.vlan3017"
+add bridge=bridge-rootlan_vlan3017 interface=eth1.3017
 /ip address
 add address=192.168.88.1/24 comment="default configuration" interface=ether2 network=192.168.88.0
 add address=10.147.29.250/24 interface=ether1 network=10.147.29.0
