@@ -56,9 +56,9 @@ set [ find default=yes ] name=engforta
 /interface bridge port
 add bridge=bridge-of interface=ether1
 add bridge=bridge_hotspot interface=HS
-add bridge=bridge-of interface=wlan1
 add bridge=bridge-rootlan_vlan3016 interface=eth1.3016
 add bridge=bridge-rootlan_vlan3017 interface=eth1.3017
+add bridge=bridge-of interface=wlan1
 /ip address
 add address=192.168.88.1/24 comment="default configuration" interface=ether2 network=192.168.88.0
 add address=10.147.29.250/24 interface=ether1 network=10.147.29.0
