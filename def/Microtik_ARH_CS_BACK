@@ -8,6 +8,7 @@
 #   upgrade-firmware: 6.44.4
 #             channel: stable
 #   installed-version: 6.44.4
+#              status: ERROR: could not resolve dns name
 # software id = P6TI-I2SX
 #
 # model = 951Ui-2HnD
