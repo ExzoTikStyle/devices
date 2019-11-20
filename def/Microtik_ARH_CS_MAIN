@@ -14,6 +14,7 @@
 /interface bridge
 add mtu=1500 name=bridge-VOIP protocol-mode=none
 add mtu=1500 name=bridge-of protocol-mode=none
+add name=bridge_3017
 add mtu=1600 name=hotspot
 /interface eoip
 add !keepalive local-address=10.29.200.10 mac-address=02:BB:FA:FD:3E:7C mtu=1500 name="id=1011.eoip.Office-2.Novgor.32" remote-address=10.29.0.234 tunnel-id=1011
@@ -23,6 +24,7 @@ add interface="id=1011.eoip.Office-2.Novgor.32" name="eoip.id=1011.vlan99" vlan-
 add interface=ether1 name=eth1.100 vlan-id=100
 add interface=ether1 name=eth1.3016 vlan-id=3016
 add interface=ether1 name=eth1.3017 vlan-id=3017
+add interface=ether5 name=eth5.3017 vlan-id=3017
 /interface wireless security-profiles
 set [ find default=yes ] supplicant-identity=MikroTik
 add authentication-types=wpa2-psk eap-methods="" management-protection=allowed mode=dynamic-keys name=profile1 supplicant-identity="" wpa2-pre-shared-key=enfortit29
@@ -47,6 +49,8 @@ add bridge=bridge-of interface=wlan1
 add bridge=bridge-of interface="eoip.id=1011.vlan99"
 add bridge=bridge-of interface=ether5
 add bridge=hotspot interface=HS
+add bridge=bridge_3017 interface=eth5.3017
+add bridge=bridge_3017 interface=eth1.3017
 /ip address
 add address=10.29.200.10/24 interface=eth1.100 network=10.29.200.0
 add address=10.147.29.203/24 interface="eoip.id=1011.vlan99" network=10.147.29.0
