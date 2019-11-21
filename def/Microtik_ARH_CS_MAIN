@@ -57,7 +57,6 @@ add address=10.147.29.203/24 interface="eoip.id=1011.vlan99" network=10.147.29.0
 add address=172.18.0.1/24 interface=hotspot network=172.18.0.0
 add address=5.5.5.1/30 interface=eth1.3016 network=5.5.5.0
 /ip dhcp-server lease
-add address=10.147.29.161 client-id=1:74:e5:43:69:4e:d8 mac-address=74:E5:43:69:4E:D8 server=dhcp-of
 add address=10.147.29.116 client-id=1:0:3:d6:4:3b:c4 mac-address=00:03:D6:04:3B:C4 server=dhcp-of
 /ip dhcp-server network
 add address=10.147.29.0/24 dns-server=192.168.66.66,10.77.0.141 domain=corp.ertelecom.loc gateway=10.147.29.1 netmask=24
