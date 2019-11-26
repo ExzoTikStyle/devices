@@ -98,7 +98,7 @@ vpdn-group 1
 !
 l2tp-class L2TP-CLASS
  authentication
- password 7 1511021F0725
+ password 7 045802150C2E
 !
 !
 !
