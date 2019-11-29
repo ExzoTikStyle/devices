@@ -439,6 +439,87 @@ config igmp_snooping vlan_name VoIP2 host_timeout 260 router_timeout 260 leave_t
 config igmp_snooping data_driven_learning vlan_name VoIP2 aged_out disable
 config igmp_snooping data_driven_learning vlan_name VoIP2 state enable
 config igmp_snooping vlan_name Sevnauchflot host_timeout 260 router_timeout 260 leave_timer 2 state disable fast_leave disable
+config igmp_snooping data_driven_learning vlan_name Sevnauchflot aged_out disable
+config igmp_snooping data_driven_learning vlan_name Sevnauchflot state enable
+config igmp_snooping vlan_name alternativa host_timeout 260 router_timeout 260 leave_timer 2 state disable fast_leave disable
+config igmp_snooping data_driven_learning vlan_name alternativa aged_out disable
+config igmp_snooping data_driven_learning vlan_name alternativa state enable
+config igmp_snooping vlan_name VLAN406 host_timeout 260 router_timeout 260 leave_timer 2 state disable fast_leave disable
+config igmp_snooping data_driven_learning vlan_name VLAN406 aged_out disable
+config igmp_snooping data_driven_learning vlan_name VLAN406 state enable
+config igmp_snooping vlan_name Alternativa.F.Abra.7.3 host_timeout 260 router_timeout 260 leave_timer 2 state disable fast_leave disable
+config igmp_snooping data_driven_learning vlan_name Alternativa.F.Abra.7.3 aged_out disable
+config igmp_snooping data_driven_learning vlan_name Alternativa.F.Abra.7.3 state enable
+config igmp_snooping vlan_name VLAN3016 host_timeout 260 router_timeout 260 leave_timer 2 state disable fast_leave disable
+config igmp_snooping data_driven_learning vlan_name VLAN3016 aged_out disable
+config igmp_snooping data_driven_learning vlan_name VLAN3016 state enable
+config igmp_snooping vlan_name VLAN3017 host_timeout 260 router_timeout 260 leave_timer 2 state disable fast_leave disable
+config igmp_snooping data_driven_learning vlan_name VLAN3017 aged_out disable
+config igmp_snooping data_driven_learning vlan_name VLAN3017 state enable
+config igmp access_authentication port 1-52 state disable
+config cpu_filter l3_control_pkt 1-52 all state disable
+
+# FDB
+
+config fdb aging_time 300
+config multicast port_filtering_mode 1-52 forward_unregistered_groups
+disable flood_fdb
+config flood_fdb log disable trap disable
+
+# VLAN_TRUNK
+
+disable vlan_trunk
+
+# SMTP
+
+disable smtp
+
+# ACL
+
+disable cpu_interface_filtering
+
+# SNTP
+
+enable sntp
+config time_zone operator + hour 4 min 0
+config sntp primary 10.77.0.141 secondary 192.168.66.66 poll-interval 720
+config dst disable
+
+# DOS_PREVENTION
+
+disable dos_prevention trap_log
+config dos_prevention dos_type land_attack action drop state enable
+config dos_prevention dos_type blat_attack action drop state enable
+config dos_prevention dos_type smurf_attack action drop state enable
+config dos_prevention dos_type tcp_null_scan action drop state enable
+config dos_prevention dos_type tcp_xmascan action drop state enable
+config dos_prevention dos_type tcp_synfin action drop state enable
+config dos_prevention dos_type tcp_syn_srcport_less_1024 action drop state disable
+
+# LACP
+
+config lacp_port 1-52 mode passive
+config link_aggregation algorithm mac_source
+
+# ERPS
+
+config erps log disable
+disable erps
+
+# ADDRBIND
+
+disable address_binding dhcp_snoop
+disable address_binding trap_log
+config address_binding ip_mac ports 1-52 state disable allow_zeroip disable forward_dhcppkt enable
+config address_binding ip_mac ports 1-52 mode arp stop_learning_threshold 500
+config address_binding dhcp_snoop max_entry ports 1-52 limit 5
+
+# ARPSPOOF
+
+
+# IP
+
+config ipif System vlan Office ipaddress 10.147.29.254/24 state enable
 config ipif System dhcp_option12 state disable
 enable telnet 23
 enable web 80
@@ -515,13 +596,13 @@ create iproute default 10.147.29.1 1
 #------------------------------------------------------------------
 
 
-DES-3052:5#hshow account
+DES-3052:5#show account
+Command: show account
 
-Available commands:
-..                  ?                   cable_diag          clear
-config              create              debug               delete
-dir                 disable             download            enable
-login               logout              ping                reboot
-reconfig            reset               save                show
-smtp                telnet              traceroute          upload
+Current Accounts:
+Username            Access Level
+------------------  ------------
+admin               Admin
+
+Total Entries : 1
 
