@@ -596,3 +596,13 @@ create iproute default 10.147.29.1 1
 #------------------------------------------------------------------
 
 
+DES-3052:5#show account
+Command: show account
+
+Current Accounts:
+Username            Access Level
+------------------  ------------
+admin               Admin
+
+Total Entries : 1
+
