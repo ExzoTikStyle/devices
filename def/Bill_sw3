@@ -544,13 +544,13 @@ create iproute default 10.147.64.1 1
 #------------------------------------------------------------------
 
 
-DES-3028P:5#show account
-Command: show account
+DES-3028P:5#hshow account
 
-Current Accounts:
-Username            Access Level
-------------------  ------------
-admin               Admin
-
-Total Entries : 1
+Available commands:
+..                  ?                   cable_diag          clear
+config              create              debug               delete
+dir                 disable             download            enable
+login               logout              ping                reboot
+reconfig            reset               save                show
+smtp                telnet              traceroute          upload
 
