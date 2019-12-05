@@ -294,7 +294,7 @@ config vlan RDNet822 add tagged 27-28
 create vlan erthRL tag 2000
 config vlan erthRL add tagged 25,27-28
 create vlan erth80 tag 3051
-config vlan erth80 add tagged 27-28
+config vlan erth80 add tagged 22,27-28
 config vlan erth80 add untagged 1,3-10,12-13,15-18,23,26
 create vlan erth81 tag 3052
 config vlan erth81 add tagged 27-28
