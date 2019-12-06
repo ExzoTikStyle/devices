@@ -77,8 +77,8 @@
 # config 802.1p user_priority 1 0
 # config 802.1p user_priority 2 0
 # config 802.1p user_priority 3 1
-config 802.1p user_priority 7 3
-config cos tos value 0 class 0
+# config 802.1p user_priority 4 2
+# config 802.1p user_priority 5 2
 config cos tos value 1 class 0
 config cos tos value 2 class 0
 config cos tos value 3 class 0
