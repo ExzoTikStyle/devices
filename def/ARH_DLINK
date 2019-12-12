@@ -37,10 +37,10 @@
 # 
 # 
 # # BASIC
-
-create account admin admin
-enfortit
-enfortit
+# 
+# config serial_port baud_rate 9600 auto_logout 10_minutes
+# # ACCOUNT LIST
+# 
 
 # ACCOUNT END
 
@@ -594,14 +594,4 @@ create iproute default 10.147.29.1 1
 #             End of configuration file for DES-3052
 #------------------------------------------------------------------
 
-
-DES-3052:5#hshow account
-
-Available commands:
-..                  ?                   cable_diag          clear
-config              create              debug               delete
-dir                 disable             download            enable
-login               logout              ping                reboot
-reconfig            reset               save                show
-smtp                telnet              traceroute          upload
 
