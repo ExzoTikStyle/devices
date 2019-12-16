@@ -79,51 +79,51 @@
 # config 802.1p user_priority 3 1
 # config 802.1p user_priority 4 2
 # config 802.1p user_priority 5 2
-# config 802.1p user_priority 6 3
-# config 802.1p user_priority 7 3
-# config cos tos value 0 class 0
-# config cos tos value 1 class 0
-# config cos tos value 2 class 0
-# config cos tos value 3 class 0
-# config cos tos value 4 class 0
-# config cos tos value 5 class 0
-# config cos tos value 6 class 0
-# config cos tos value 7 class 0
-# config dscp_mapping dscp_value 0 class 0
-# config dscp_mapping dscp_value 1 class 0
-# config dscp_mapping dscp_value 2 class 0
-# config dscp_mapping dscp_value 3 class 0
-# config dscp_mapping dscp_value 4 class 0
-# config dscp_mapping dscp_value 5 class 0
-# config dscp_mapping dscp_value 6 class 0
-# config dscp_mapping dscp_value 7 class 0
-# config dscp_mapping dscp_value 8 class 0
-# config dscp_mapping dscp_value 9 class 0
-# config dscp_mapping dscp_value 10 class 0
-# config dscp_mapping dscp_value 11 class 0
-# config dscp_mapping dscp_value 12 class 0
-# config dscp_mapping dscp_value 13 class 0
-# config dscp_mapping dscp_value 14 class 0
-# config dscp_mapping dscp_value 15 class 0
-# config dscp_mapping dscp_value 16 class 0
-# config dscp_mapping dscp_value 17 class 0
-# config dscp_mapping dscp_value 18 class 0
-# config dscp_mapping dscp_value 19 class 0
-# config dscp_mapping dscp_value 20 class 0
-# config dscp_mapping dscp_value 21 class 0
-# config dscp_mapping dscp_value 22 class 0
-# config dscp_mapping dscp_value 23 class 0
-# config dscp_mapping dscp_value 24 class 0
-# config dscp_mapping dscp_value 25 class 0
-# config dscp_mapping dscp_value 26 class 0
-# config dscp_mapping dscp_value 27 class 0
-# config dscp_mapping dscp_value 28 class 0
-# config dscp_mapping dscp_value 29 class 0
-# config dscp_mapping dscp_value 30 class 0
-# config dscp_mapping dscp_value 31 class 0
-# config dscp_mapping dscp_value 32 class 0
-# config dscp_mapping dscp_value 33 class 0
-# config dscp_mapping dscp_value 34 class 0
+config cos tos value 1 class 0
+config cos tos value 2 class 0
+config cos tos value 3 class 0
+config cos tos value 4 class 0
+config cos tos value 5 class 0
+config cos tos value 6 class 0
+config cos tos value 7 class 0
+config dscp_mapping dscp_value 0 class 0
+config dscp_mapping dscp_value 1 class 0
+config dscp_mapping dscp_value 2 class 0
+config dscp_mapping dscp_value 3 class 0
+config dscp_mapping dscp_value 4 class 0
+config dscp_mapping dscp_value 5 class 0
+config dscp_mapping dscp_value 6 class 0
+config dscp_mapping dscp_value 7 class 0
+config dscp_mapping dscp_value 8 class 0
+config dscp_mapping dscp_value 9 class 0
+config dscp_mapping dscp_value 10 class 0
+config dscp_mapping dscp_value 11 class 0
+config dscp_mapping dscp_value 12 class 0
+config dscp_mapping dscp_value 13 class 0
+config dscp_mapping dscp_value 14 class 0
+config dscp_mapping dscp_value 15 class 0
+config dscp_mapping dscp_value 16 class 0
+config dscp_mapping dscp_value 17 class 0
+config dscp_mapping dscp_value 18 class 0
+config dscp_mapping dscp_value 19 class 0
+config dscp_mapping dscp_value 20 class 0
+config dscp_mapping dscp_value 21 class 0
+config dscp_mapping dscp_value 22 class 0
+config dscp_mapping dscp_value 23 class 0
+config dscp_mapping dscp_value 24 class 0
+config dscp_mapping dscp_value 25 class 0
+config dscp_mapping dscp_value 26 class 0
+config dscp_mapping dscp_value 27 class 0
+config dscp_mapping dscp_value 28 class 0
+config dscp_mapping dscp_value 29 class 0
+config dscp_mapping dscp_value 30 class 0
+config dscp_mapping dscp_value 31 class 0
+config dscp_mapping dscp_value 32 class 0
+config dscp_mapping dscp_value 33 class 0
+config dscp_mapping dscp_value 34 class 0
+config dscp_mapping dscp_value 35 class 0
+config dscp_mapping dscp_value 36 class 0
+config dscp_mapping dscp_value 37 class 0
 config dscp_mapping dscp_value 38 class 0
 config dscp_mapping dscp_value 39 class 0
 config dscp_mapping dscp_value 40 class 0
@@ -563,13 +563,13 @@ create iproute default 10.147.64.1 1
 #------------------------------------------------------------------
 
 
-DES-3028P:5#hshow account
+DES-3028P:5#show account
+Command: show account
 
-Available commands:
-..                  ?                   cable_diag          clear
-config              create              debug               delete
-dir                 disable             download            enable
-login               logout              ping                reboot
-reconfig            reset               save                show
-smtp                telnet              traceroute          upload
+Current Accounts:
+Username            Access Level
+------------------  ------------
+admin               Admin
+
+Total Entries : 1
 
