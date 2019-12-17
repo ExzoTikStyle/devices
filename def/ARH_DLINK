@@ -41,29 +41,28 @@
 # config serial_port baud_rate 9600 auto_logout 10_minutes
 # # ACCOUNT LIST
 # 
-# create account admin admin
-# enfortit
-# enfortit
-# 
-# # ACCOUNT END
-# 
-# # PASSWORD ENCRYPTION
-# disable password encryption
-# config terminal_line default
-# disable clipaging
-# disable command logging
-# enable password_recovery
-# 
-# # STORM
-# 
-# config traffic trap none
-# config traffic control 1-52 broadcast disable multicast disable unicast disable action drop threshold 64 countdown 0 time_interval 5
-# 
-# # LOOP_DETECT
-# 
-# disable loopdetect
-# config loopdetect recover_timer 60
-# config loopdetect interval 10
+
+# ACCOUNT END
+
+# PASSWORD ENCRYPTION
+disable password encryption
+config terminal_line default
+disable clipaging
+disable command logging
+enable password_recovery
+
+# STORM
+
+config traffic trap none
+config traffic control 1-52 broadcast disable multicast disable unicast disable action drop threshold 64 countdown 0 time_interval 5
+
+# LOOP_DETECT
+
+disable loopdetect
+config loopdetect recover_timer 60
+config loopdetect interval 10
+config loopdetect trap none
+config loopdetect port 1-52 state disabled
 
 # QOS
 
@@ -596,13 +595,13 @@ create iproute default 10.147.29.1 1
 #------------------------------------------------------------------
 
 
-DES-3052:5#show account
-Command: show account
+DES-3052:5#hshow account
 
-Current Accounts:
-Username            Access Level
-------------------  ------------
-admin               Admin
-
-Total Entries : 1
+Available commands:
+..                  ?                   cable_diag          clear
+config              create              debug               delete
+dir                 disable             download            enable
+login               logout              ping                reboot
+reconfig            reset               save                show
+smtp                telnet              traceroute          upload
 
