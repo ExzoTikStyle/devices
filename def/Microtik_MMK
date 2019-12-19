@@ -7,7 +7,7 @@
 #   upgrade-firmware: 3.41
 #             channel: bugfix
 #   installed-version: 6.39.3
-#      latest-version: 6.43.15
+#      latest-version: 6.44.6
 #              status: New version is available
 # software id = 5EPV-L1QM
 #
@@ -52,6 +52,10 @@ add bridge=bridge-mgmt interface=eth3.100
 add address=192.168.88.1/24 comment="default configuration" interface=bridge1 network=192.168.88.0
 add address=172.16.0.1/24 interface=bridge1 network=172.16.0.0
 add address=10.147.51.150/24 interface=ether1 network=10.147.51.0
+/ip dhcp-server lease
+add address=10.147.51.79 client-id=1:1c:4b:d6:77:ae:e8 mac-address=1C:4B:D6:77:AE:E8 server=DHCP_OFFICE
+add address=10.147.51.85 client-id=1:6c:f0:49:e5:b1:c3 mac-address=6C:F0:49:E5:B1:C3 server=DHCP_OFFICE
+add address=10.147.51.78 client-id=1:6c:f0:49:e5:d5:a9 mac-address=6C:F0:49:E5:D5:A9 server=DHCP_OFFICE
 /ip dhcp-server network
 add address=10.147.51.0/24 boot-file-name="x86pc\\undi\\provwin\\startrom.0" dns-server=192.168.66.66,10.77.0.141 domain=corp.ertelecom.loc gateway=10.147.51.1 netmask=24 next-server=10.147.51.97
 add address=172.16.0.0/24 dns-server=87.241.223.68,81.17.2.171,8.8.8.8 gateway=172.16.0.1
