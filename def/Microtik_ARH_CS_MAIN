@@ -91,3 +91,5 @@ set time-zone-name=Europe/Moscow
 set enabled=yes primary-ntp=192.168.66.25
 /system watchdog
 set watchdog-timer=no
+/tool sniffer
+set file-limit=100000KiB filter-interface=all filter-ip-address="10.124.188.4/32,10.124.188.29/32,10.124.188.36/32,10.124.188.26/32,10.124.188.21/32,10.124.188.25/32,10.124.188.7/32,10.124.188.5/32" filter-stream=yes streaming-enabled=yes streaming-server=10.147.64.184
