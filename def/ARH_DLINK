@@ -47,23 +47,23 @@
 # 
 # # ACCOUNT END
 # 
-# # PASSWORD ENCRYPTION
-# disable password encryption
-# config terminal_line default
-# disable clipaging
-# disable command logging
-# enable password_recovery
-# 
-# # STORM
-# 
-# config traffic trap none
-# config traffic control 1-52 broadcast disable multicast disable unicast disable action drop threshold 64 countdown 0 time_interval 5
-# 
-# # LOOP_DETECT
-# 
-# disable loopdetect
-# config loopdetect recover_timer 60
-# config loopdetect interval 10
+config terminal_line default
+disable clipaging
+disable command logging
+enable password_recovery
+
+# STORM
+
+config traffic trap none
+config traffic control 1-52 broadcast disable multicast disable unicast disable action drop threshold 64 countdown 0 time_interval 5
+
+# LOOP_DETECT
+
+disable loopdetect
+config loopdetect recover_timer 60
+config loopdetect interval 10
+config loopdetect trap none
+config loopdetect port 1-52 state disabled
 
 # QOS
 
