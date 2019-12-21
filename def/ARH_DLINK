@@ -47,54 +47,54 @@
 # 
 # # ACCOUNT END
 # 
-config terminal_line default
-disable clipaging
-disable command logging
-enable password_recovery
-
-# STORM
-
-config traffic trap none
-config traffic control 1-52 broadcast disable multicast disable unicast disable action drop threshold 64 countdown 0 time_interval 5
-
-# LOOP_DETECT
-
-disable loopdetect
-config loopdetect recover_timer 60
-config loopdetect interval 10
-config loopdetect trap none
-config loopdetect port 1-52 state disabled
-
-# QOS
-
-config scheduling_mechanism strict
-config scheduling 0 weight 1
-config scheduling 1 weight 2
-config scheduling 2 weight 4
-config scheduling 3 weight 8
-config 802.1p user_priority 0 1
-config 802.1p user_priority 1 0
-config 802.1p user_priority 2 0
-config 802.1p user_priority 3 1
-config 802.1p user_priority 4 2
-config 802.1p user_priority 5 2
-config 802.1p user_priority 6 3
-config 802.1p user_priority 7 3
-config cos tos value 0 class 0
-config cos tos value 1 class 0
-config cos tos value 2 class 0
-config cos tos value 3 class 0
-config cos tos value 4 class 0
-config cos tos value 5 class 0
-config cos tos value 6 class 0
-config cos tos value 7 class 0
-config dscp_mapping dscp_value 0 class 0
-config dscp_mapping dscp_value 1 class 0
-config dscp_mapping dscp_value 2 class 0
-config dscp_mapping dscp_value 3 class 0
-config dscp_mapping dscp_value 4 class 0
-config dscp_mapping dscp_value 5 class 0
-config dscp_mapping dscp_value 6 class 0
+# # PASSWORD ENCRYPTION
+# disable password encryption
+# config terminal_line default
+# disable clipaging
+# disable command logging
+# enable password_recovery
+# 
+# # STORM
+# 
+# config traffic trap none
+# config traffic control 1-52 broadcast disable multicast disable unicast disable action drop threshold 64 countdown 0 time_interval 5
+# 
+# # LOOP_DETECT
+# 
+# disable loopdetect
+# config loopdetect recover_timer 60
+# config loopdetect interval 10
+# config loopdetect trap none
+# config loopdetect port 1-52 state disabled
+# 
+# # QOS
+# 
+# config scheduling_mechanism strict
+# config scheduling 0 weight 1
+# config scheduling 1 weight 2
+# config scheduling 2 weight 4
+# config scheduling 3 weight 8
+# config 802.1p user_priority 0 1
+# config 802.1p user_priority 1 0
+# config 802.1p user_priority 2 0
+# config 802.1p user_priority 3 1
+# config 802.1p user_priority 4 2
+# config 802.1p user_priority 5 2
+# config 802.1p user_priority 6 3
+# config 802.1p user_priority 7 3
+# config cos tos value 0 class 0
+# config cos tos value 1 class 0
+# config cos tos value 2 class 0
+# config cos tos value 3 class 0
+# config cos tos value 4 class 0
+# config cos tos value 5 class 0
+# config cos tos value 6 class 0
+# config cos tos value 7 class 0
+# config dscp_mapping dscp_value 0 class 0
+# config dscp_mapping dscp_value 1 class 0
+# config dscp_mapping dscp_value 2 class 0
+# config dscp_mapping dscp_value 3 class 0
+# config dscp_mapping dscp_value 4 class 0
 config dscp_mapping dscp_value 7 class 0
 config dscp_mapping dscp_value 8 class 0
 config dscp_mapping dscp_value 9 class 0
@@ -595,14 +595,4 @@ create iproute default 10.147.29.1 1
 #             End of configuration file for DES-3052
 #------------------------------------------------------------------
 
-
-DES-3052:5#hshow account
-
-Available commands:
-..                  ?                   cable_diag          clear
-config              create              debug               delete
-dir                 disable             download            enable
-login               logout              ping                reboot
-reconfig            reset               save                show
-smtp                telnet              traceroute          upload
 
