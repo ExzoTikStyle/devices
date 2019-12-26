@@ -39,46 +39,46 @@
 # # BASIC
 # 
 # config serial_port baud_rate 9600 auto_logout 10_minutes
-# # ACCOUNT LIST
-# 
-# create account admin admin
-# enfortit
-# enfortit
-# 
-# # ACCOUNT END
-# 
-# # PASSWORD ENCRYPTION
-# disable password encryption
-# config terminal_line default
-# disable clipaging
-# disable command logging
-# 
-# # STORM
-# 
-# config traffic trap none
-# config traffic control 1-28 broadcast disable multicast disable unicast disable action drop threshold 64 countdown 0 time_interval 5
-# 
-# # LOOP_DETECT
-# 
-# enable loopdetect
-# config loopdetect recover_timer 60
-# config loopdetect interval 10
-# config loopdetect trap none
-# config loopdetect port 1-28 state enabled
-# 
-# # QOS
-# 
-# config scheduling_mechanism strict
-# config scheduling 0 weight 1
-# config scheduling 1 weight 2
-# config scheduling 2 weight 4
-# config scheduling 3 weight 8
-# config 802.1p user_priority 0 1
-# config 802.1p user_priority 1 0
-# config 802.1p user_priority 2 0
-# config 802.1p user_priority 3 1
-# config 802.1p user_priority 4 2
-# config 802.1p user_priority 5 2
+enfortit
+enfortit
+
+# ACCOUNT END
+
+# PASSWORD ENCRYPTION
+disable password encryption
+config terminal_line default
+disable clipaging
+disable command logging
+
+# STORM
+
+config traffic trap none
+config traffic control 1-28 broadcast disable multicast disable unicast disable action drop threshold 64 countdown 0 time_interval 5
+
+# LOOP_DETECT
+
+enable loopdetect
+config loopdetect recover_timer 60
+config loopdetect interval 10
+config loopdetect trap none
+config loopdetect port 1-28 state enabled
+
+# QOS
+
+config scheduling_mechanism strict
+config scheduling 0 weight 1
+config scheduling 1 weight 2
+config scheduling 2 weight 4
+config scheduling 3 weight 8
+config 802.1p user_priority 0 1
+config 802.1p user_priority 1 0
+config 802.1p user_priority 2 0
+config 802.1p user_priority 3 1
+config 802.1p user_priority 4 2
+config 802.1p user_priority 5 2
+config 802.1p user_priority 6 3
+config 802.1p user_priority 7 3
+config cos tos value 0 class 0
 config cos tos value 1 class 0
 config cos tos value 2 class 0
 config cos tos value 3 class 0
@@ -543,13 +543,13 @@ create iproute default 10.147.64.1 1
 #------------------------------------------------------------------
 
 
-DES-3028P:5#hshow account
+DES-3028P:5#show account
+Command: show account
 
-Available commands:
-..                  ?                   cable_diag          clear
-config              create              debug               delete
-dir                 disable             download            enable
-login               logout              ping                reboot
-reconfig            reset               save                show
-smtp                telnet              traceroute          upload
+Current Accounts:
+Username            Access Level
+------------------  ------------
+admin               Admin
+
+Total Entries : 1
 
