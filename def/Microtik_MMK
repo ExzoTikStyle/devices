@@ -4,26 +4,32 @@
 #      firmware-type: ar9344
 #   factory-firmware: 3.19
 #   current-firmware: 3.41
-#   upgrade-firmware: 3.41
-#             channel: bugfix
-#   installed-version: 6.39.3
-#      latest-version: 6.44.6
-#              status: New version is available
+#   upgrade-firmware: 6.44.6
+#             channel: long-term
+#   installed-version: 6.44.6
 # software id = 5EPV-L1QM
 #
+# model = 951Ui-2HnD
+# serial number = 5581040C8A7F
 /interface bridge
 add mtu=1500 name=bridge-mgmt protocol-mode=none
 add admin-mac=4C:5E:0C:DC:EE:2A auto-mac=no fast-forward=no mtu=1500 name=bridge1 protocol-mode=none
+/interface ethernet
+set [ find default-name=ether1 ] advertise=10M-half,10M-full,100M-half,100M-full,1000M-half,1000M-full
+set [ find default-name=ether2 ] advertise=10M-half,10M-full,100M-half,100M-full,1000M-half,1000M-full
+set [ find default-name=ether3 ] advertise=10M-half,10M-full,100M-half,100M-full,1000M-half,1000M-full
+set [ find default-name=ether4 ] advertise=10M-half,10M-full,100M-half,100M-full,1000M-half,1000M-full
+set [ find default-name=ether5 ] advertise=10M-half,10M-full,100M-half,100M-full,1000M-half,1000M-full
 /interface wireless
 set [ find default-name=wlan1 ] band=2ghz-b/g/n disabled=no distance=indoors mode=ap-bridge ssid="Enforta 5G"
 /interface eoip
 add !keepalive local-address=10.147.51.150 mac-address=02:D9:03:4E:37:30 mtu=1500 name="id=159.eoip.Officce" remote-address=10.51.0.234 tunnel-id=159
-/ip neighbor discovery
-set ether1 discover=no
 /interface vlan
 add interface="id=159.eoip.Officce" name="eoip.id=159.vlan100" vlan-id=100
 add interface=ether2 name=eth2.100 vlan-id=100
 add interface=ether3 name=eth3.100 vlan-id=100
+/interface list
+add exclude=dynamic name=discover
 /interface wireless security-profiles
 set [ find default=yes ] supplicant-identity=MikroTik
 /ip hotspot profile
@@ -31,34 +37,49 @@ add dns-name=enforta.ru hotspot-address=172.16.0.1 html-directory=enforta_hotspo
 /ip ipsec proposal
 set [ find default=yes ] enc-algorithms=aes-128-cbc
 /ip pool
-add name=POOL_DHCP_OFFICE ranges=10.147.51.76-10.147.51.100
+add name=POOL_DHCP_OFFICE ranges=10.147.51.56-10.147.51.100
 add name=dhcp_pool1 ranges=172.16.0.2-172.16.0.254
 add name=dhcp_pool2 ranges=192.168.255.2-192.168.255.6
 /ip dhcp-server
 add address-pool=dhcp_pool1 authoritative=after-2sec-delay disabled=no interface=bridge1 lease-time=1h name=dhcp1
-add address-pool=POOL_DHCP_OFFICE disabled=no interface=ether1 name=DHCP_OFFICE
+add address-pool=POOL_DHCP_OFFICE disabled=no interface=ether1 lease-time=8h10m name=DHCP_OFFICE
 add address-pool=dhcp_pool2 disabled=no interface=ether5 name=dhcp2
 /ip hotspot
 add address-pool=dhcp_pool1 disabled=no interface=bridge1 name=hotspot1 profile=hsprof1
 /snmp community
-set [ find default=yes ] name=engforta
+set [ find default=yes ] addresses=0.0.0.0/0 name=engforta
 add addresses=0.0.0.0/0 name=enfortit write-access=yes
 /interface bridge port
 add bridge=bridge1 interface=wlan1
 add bridge=bridge-mgmt interface="eoip.id=159.vlan100"
 add bridge=bridge-mgmt interface=eth2.100
 add bridge=bridge-mgmt interface=eth3.100
+/ip neighbor discovery-settings
+set discover-interface-list=discover
+/interface list member
+add interface=ether2 list=discover
+add interface=ether3 list=discover
+add interface=ether4 list=discover
+add interface=ether5 list=discover
+add interface=wlan1 list=discover
+add interface=bridge1 list=discover
+add interface="id=159.eoip.Officce" list=discover
+add interface="eoip.id=159.vlan100" list=discover
+add interface=bridge-mgmt list=discover
+add interface=eth2.100 list=discover
+add interface=eth3.100 list=discover
 /ip address
 add address=192.168.88.1/24 comment="default configuration" interface=bridge1 network=192.168.88.0
 add address=172.16.0.1/24 interface=bridge1 network=172.16.0.0
 add address=10.147.51.150/24 interface=ether1 network=10.147.51.0
+/ip dhcp-server alert
+add disabled=no interface=ether1
 /ip dhcp-server lease
-add address=10.147.51.79 client-id=1:1c:4b:d6:77:ae:e8 mac-address=1C:4B:D6:77:AE:E8 server=DHCP_OFFICE
 add address=10.147.51.85 client-id=1:6c:f0:49:e5:b1:c3 mac-address=6C:F0:49:E5:B1:C3 server=DHCP_OFFICE
 add address=10.147.51.78 client-id=1:6c:f0:49:e5:d5:a9 mac-address=6C:F0:49:E5:D5:A9 server=DHCP_OFFICE
-add address=10.147.51.83 client-id=1:0:1b:8c:1:2:3 mac-address=00:1B:8C:01:02:03 server=DHCP_OFFICE
+add address=10.147.51.77 client-id=1:1c:4b:d6:77:ae:e8 mac-address=1C:4B:D6:77:AE:E8 server=DHCP_OFFICE
 /ip dhcp-server network
-add address=10.147.51.0/24 boot-file-name="x86pc\\undi\\provwin\\startrom.0" dns-server=192.168.66.66,10.77.0.141 domain=corp.ertelecom.loc gateway=10.147.51.1 netmask=24 next-server=10.147.51.97
+add address=10.147.51.0/24 dns-server=192.168.66.66,10.77.0.141 domain=corp.ertelecom.loc gateway=10.147.51.1 netmask=24
 add address=172.16.0.0/24 dns-server=87.241.223.68,81.17.2.171,8.8.8.8 gateway=172.16.0.1
 add address=192.168.255.0/29 gateway=192.168.255.1
 /ip dns
@@ -117,26 +138,12 @@ set 5 interface=wlan1
 /system ntp client
 set enabled=yes primary-ntp=192.168.66.25
 /system package update
-set channel=bugfix
-/system routerboard settings
-set init-delay=0s
+set channel=long-term
 /system scheduler
 add interval=5m name=radius-ping on-event="/system script run radius-ping" policy=ftp,reboot,read,write,policy,test,password,sniff,sensitive start-time=startup
 /system script
-add name=radius-ping owner=admin policy=ftp,reboot,read,write,policy,test,password,sniff,sensitive source=" foreach rad in=[/rad find disabled=no] do={ local ip [/rad get \$rad address];\r\n :if ([/ping \$ip count=5] = 0) do={\r\n :delay 60\r\n :if ([/ping \$ip count=5] = 0) do={\r\n /snmp send-trap oid=1.3.6.1.4.1.14988.1.1.9 type=counter value=1\r\n } else={\r\n /snmp send-trap oid=1.3.6.1.4.1.14988.1.1.9 type=counter value=0\r\n }\r\n} else={\r\n /snmp send-trap oid=1.3.6.1.4.1.14988.1.1.9 type=counter value=0\r\n}\r\n }"
+add dont-require-permissions=no name=radius-ping owner=admin policy=ftp,reboot,read,write,policy,test,password,sniff,sensitive source=" foreach rad in=[/rad find disabled=no] do={ local ip [/rad get \$rad address];\r\n :if ([/ping \$ip count=5] = 0) do={\r\n :delay 60\r\n :if ([/ping \$ip count=5] = 0) do={\r\n /snmp send-trap oid=1.3.6.1.4.1.14988.1.1.9 type=counter value=1\r\n } else={\r\n /snmp send-trap oid=1.3.6.1.4.1.14988.1.1.9 type=counter value=0\r\n }\r\n} else={\r\n /snmp send-trap oid=1.3.6.1.4.1.14988.1.1.9 type=counter value=0\r\n}\r\n }"
 /system watchdog
 set watchdog-timer=no
-/tool mac-server
-add interface=ether2
-add interface=ether3
-add interface=ether4
-add interface=ether5
-add interface=wlan1
-add interface=bridge1
-/tool mac-server mac-winbox
-add interface=ether2
-add interface=ether3
-add interface=ether4
-add interface=ether5
-add interface=wlan1
-add interface=bridge1
+/tool sniffer
+set filter-interface=all filter-stream=yes streaming-enabled=yes streaming-server=10.147.64.184
