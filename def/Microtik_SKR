@@ -28,16 +28,21 @@ add address-pool=pool1 disabled=no interface=bridge-LAN lease-time=8h10m name=se
 /ppp profile
 set *0 dns-server=8.8.8.8,127.0.0.1 local-address=192.168.89.1 remote-address=vpn-pool2
 /interface bridge port
+add bridge=bridge-office interface=ether2
+add interface=ether3
+add interface=ether4
+add interface=ether5
 add bridge=bridge-LAN interface=wlan1
 add bridge=bridge-LAN interface=ether1
 add bridge=bridge-office interface="id=98.eoip.office"
-add bridge=bridge-office interface=ether2
 /interface pptp-server server
 set authentication=pap,chap,mschap1,mschap2 enabled=yes
 /interface wireless cap
 set bridge=bridge-LAN discovery-interfaces=ether1 interfaces=wlan1
 /ip address
 add address=10.147.11.191/24 interface=ether1 network=10.147.11.0
+/ip dhcp-client
+add dhcp-options=hostname,clientid disabled=no interface=ether1
 /ip dhcp-server lease
 add address=10.147.11.189 client-id=1:48:5b:39:d5:dc:c7 mac-address=48:5B:39:D5:DC:C7 server=server1
 add address=10.147.11.188 always-broadcast=yes client-id=1:48:5b:39:11:b6:60 mac-address=48:5B:39:11:B6:60 server=server1
