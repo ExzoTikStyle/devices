@@ -1,21 +1,24 @@
 #        routerboard: yes
 #              model: 951Ui-2HnD
-#      serial-number: 81570879867F
+#           revision: r2
+#      serial-number: 90310AAEEDFA
 #      firmware-type: ar9344
-#   factory-firmware: 3.41
-#   current-firmware: 3.41
-#   upgrade-firmware: 3.41
-#             channel: current
-#   installed-version: 6.39.3
-# software id = YB3A-S69U
+#   factory-firmware: 6.43.2
+#   current-firmware: 6.43.2
+#   upgrade-firmware: 6.42.11
+#             channel: stable
+#   installed-version: 6.42.11
+# software id = V3PL-698Y
 #
+# model = 951Ui-2HnD
+# serial number = 90310AAEEDFA
 /interface bridge
 add name=bridge-LAN protocol-mode=none
 add mtu=1500 name=bridge-office protocol-mode=none
 /interface ethernet
 set [ find default-name=ether1 ] comment=Uplink
 /interface wireless
-set [ find default-name=wlan1 ] disabled=no mode=ap-bridge ssid="Enforta SKR"
+set [ find default-name=wlan1 ] band=2ghz-b/g/n disabled=no mode=ap-bridge ssid="Enforta SKR"
 /interface eoip
 add !keepalive local-address=10.147.11.191 mac-address=02:49:29:6F:D4:C0 mtu=1500 name="id=98.eoip.office" remote-address=10.11.0.234 tunnel-id=98
 /interface wireless security-profiles
@@ -28,13 +31,10 @@ add address-pool=pool1 disabled=no interface=bridge-LAN lease-time=8h10m name=se
 /ppp profile
 set *0 dns-server=8.8.8.8,127.0.0.1 local-address=192.168.89.1 remote-address=vpn-pool2
 /interface bridge port
-add bridge=bridge-office interface=ether2
-add interface=ether3
-add interface=ether4
-add interface=ether5
-add bridge=bridge-LAN interface=wlan1
-add bridge=bridge-LAN interface=ether1
 add bridge=bridge-office interface="id=98.eoip.office"
+add bridge=bridge-office interface=ether2
+add bridge=bridge-LAN interface=ether1
+add bridge=bridge-LAN interface=wlan1
 /interface pptp-server server
 set authentication=pap,chap,mschap1,mschap2 enabled=yes
 /interface wireless cap
@@ -42,7 +42,7 @@ set bridge=bridge-LAN discovery-interfaces=ether1 interfaces=wlan1
 /ip address
 add address=10.147.11.191/24 interface=ether1 network=10.147.11.0
 /ip dhcp-client
-add dhcp-options=hostname,clientid disabled=no interface=ether1
+add comment=defconf dhcp-options=hostname,clientid disabled=no
 /ip dhcp-server lease
 add address=10.147.11.189 client-id=1:48:5b:39:d5:dc:c7 mac-address=48:5B:39:D5:DC:C7 server=server1
 add address=10.147.11.188 always-broadcast=yes client-id=1:48:5b:39:11:b6:60 mac-address=48:5B:39:11:B6:60 server=server1
@@ -66,5 +66,3 @@ add distance=1 gateway=10.147.11.1
 add name=iam password=iam
 /system clock
 set time-zone-name=Asia/Krasnoyarsk
-/system routerboard settings
-set init-delay=0s
