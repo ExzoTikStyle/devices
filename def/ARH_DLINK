@@ -492,68 +492,6 @@ config dos_prevention dos_type blat_attack action drop state enable
 config dos_prevention dos_type smurf_attack action drop state enable
 config dos_prevention dos_type tcp_null_scan action drop state enable
 config dos_prevention dos_type tcp_xmascan action drop state enable
-config dos_prevention dos_type tcp_synfin action drop state enable
-config dos_prevention dos_type tcp_syn_srcport_less_1024 action drop state disable
-
-# LACP
-
-config lacp_port 1-52 mode passive
-config link_aggregation algorithm mac_source
-
-# ERPS
-
-config erps log disable
-disable erps
-
-# ADDRBIND
-
-disable address_binding dhcp_snoop
-disable address_binding trap_log
-config address_binding ip_mac ports 1-52 state disable allow_zeroip disable forward_dhcppkt enable
-config address_binding ip_mac ports 1-52 mode arp stop_learning_threshold 500
-config address_binding dhcp_snoop max_entry ports 1-52 limit 5
-
-# ARPSPOOF
-
-
-# IP
-
-config ipif System vlan Office ipaddress 10.147.29.254/24 state enable
-config ipif System dhcp_option12 state disable
-enable telnet 23
-enable web 80
-disable autoconfig
-
-# LLDP
-
-disable lldp
-config lldp message_tx_interval 30
-config lldp tx_delay 2
-config lldp message_tx_hold_multiplier 4
-config lldp reinit_delay 2
-config lldp notification_interval 5
-config lldp ports 1-52 notification disable
-config lldp ports 1-52 admin_status tx_and_rx
-
-# MLDSNP
-
-disable mld_snooping
-
-# ARP
-
-config arp_aging time 20
-config gratuitous_arp send ipif_status_up enable
-config gratuitous_arp send dup_ip_detected enable
-config gratuitous_arp learning enable
-
-# AAA
-
-config authen_login default method local
-config authen_enable default method  local_enable
-config authen application console login default
-config authen application console enable default
-config authen application telnet login default
-config authen application telnet enable default
 config authen application ssh login default
 config authen application ssh enable default
 config authen application http login default
