@@ -18,15 +18,15 @@ set [ find default-name=ether2 ] loop-protect=off
 set [ find default-name=ether3 ] loop-protect=off
 set [ find default-name=ether4 ] disabled=yes
 set [ find default-name=ether5 ] disabled=yes poe-out=forced-on
+/interface wireless
+set [ find default-name=wlan1 ] band=2ghz-b/g/n country=russia disabled=no frequency=2432 frequency-mode=regulatory-domain mode=ap-bridge name=local ssid=Enforta-KGD
 /interface eoip
 add !keepalive local-address=10.147.39.14 mac-address=02:42:ED:19:57:F9 mtu=1500 name=eoip-tunnel1 remote-address=10.147.64.39 tunnel-id=1007
 /interface vlan
 add disabled=yes interface=ether1 name=vlan98 vlan-id=98
 /interface wireless security-profiles
-set [ find default=yes ] supplicant-identity=MikroTik
-add authentication-types=wpa2-psk eap-methods="" group-key-update=30m management-protection=allowed mode=dynamic-keys name=wpa-psk supplicant-identity="" wpa-pre-shared-key=enfortitwifi wpa2-pre-shared-key=enfortitwifi
-/interface wireless
-set [ find default-name=wlan1 ] band=2ghz-b/g/n country=zimbabwe disabled=no frequency=2432 mode=ap-bridge name=local security-profile=wpa-psk ssid=Enforta-KGD
+set [ find default=yes ] authentication-types=wpa-psk,wpa2-psk eap-methods="" mode=dynamic-keys supplicant-identity=MikroTik unicast-ciphers=tkip,aes-ccm wpa-pre-shared-key=enfortitwifi wpa2-pre-shared-key=enfortitwifi
+add authentication-types=wpa2-psk eap-methods="" group-key-update=30m management-protection=allowed mode=dynamic-keys name=wpa-psk supplicant-identity="" wpa-pre-shared-key=enfortit39 wpa2-pre-shared-key=enfortitwifi
 /ip hotspot profile
 add dns-name=enforta.ru hotspot-address=192.100.0.1 html-directory=enforta_hotspot login-by=http-chap,http-pap name=hsprof1 use-radius=yes
 /ip ipsec proposal
@@ -35,7 +35,7 @@ set [ find default=yes ] enc-algorithms=aes-128-cbc
 add name=dhcp_pool1 ranges=192.100.0.2-192.100.0.254
 add name=dhcp ranges=10.147.39.50-10.147.39.110
 /ip dhcp-server
-add address-pool=dhcp disabled=no interface=bridge-hotspot lease-time=1h name=dhcp1
+add address-pool=dhcp_pool1 disabled=no interface=bridge-hotspot lease-time=1h name=dhcp1
 add address-pool=dhcp disabled=no interface=ether1 lease-time=1d name=server-dhcp-of
 /ip hotspot
 add address-pool=dhcp_pool1 interface=bridge-hotspot name=hotspot1 profile=hsprof1
@@ -45,11 +45,11 @@ add name=free-limit target=192.100.0.0/24
 set [ find default=yes ] read-access=no
 add addresses=0.0.0.0/0 name=engforta
 /interface bridge port
-add bridge=bridge-hotspot interface=local
 add bridge=bridge-hotspot interface=eoip-tunnel1
+add bridge=bridge-hotspot interface=local
 /ip address
 add address=192.100.0.1/24 interface=bridge-hotspot network=192.100.0.0
-add address=10.39.100.1/23 interface=vlan98 network=10.39.100.0
+add address=10.39.100.1/23 disabled=yes interface=vlan98 network=10.39.100.0
 add address=10.147.39.14/24 interface=ether1 network=10.147.39.0
 add address=192.168.88.2/24 disabled=yes interface=bridge-local network=192.168.88.0
 /ip dhcp-client
@@ -62,9 +62,7 @@ add address=10.147.39.58 client-id=1:f4:6d:4:87:28:b2 mac-address=F4:6D:04:87:28
 add address=10.147.39.89 client-id=1:1c:4b:d6:d6:6a:48 mac-address=1C:4B:D6:D6:6A:48 server=server-dhcp-of
 /ip dhcp-server network
 add address=10.147.39.0/24 boot-file-name="x86pc\\undi\\provwin\\startrom.0" dns-server=192.168.66.66,10.77.0.141 gateway=10.147.39.1 netmask=24 next-server=10.147.39.8
-add address=192.100.0.0/24 dns-server=87.241.223.68,81.17.2.171,8.8.8.8 gateway=192.100.0.1
-/ip dns
-set servers=87.241.223.68,81.17.2.171,8.8.8.8
+add address=192.100.0.0/24 dns-server=8.8.8.8,8.8.4.4 gateway=192.100.0.1
 /ip firewall filter
 add action=accept chain=forward
 add action=accept chain=input
@@ -123,7 +121,7 @@ add address=185.12.28.167 secret=enforta1242-8201-service_36Cloud service=hotspo
 /snmp
 set enabled=yes trap-community=engforta trap-target=10.77.0.16
 /system clock
-set time-zone-autodetect=no
+set time-zone-autodetect=no time-zone-name=Europe/Kaliningrad
 /system identity
 set name=enforta-free-kgd-001
 /system leds
