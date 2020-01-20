@@ -37,12 +37,13 @@
 # 
 #  config stp maxage 20 hellotime 2 forwarddelay 15 priority 32768 version rstp txholdcount 3 fbpdu enabled lbd disabled lbd_recover_timer 60
 #  disable stp
- config stp ports 4 cost auto priority 128 edge false p2p auto state enabled lbd disabled fbpdu enabled
- config stp ports 5 cost auto priority 128 edge false p2p auto state enabled lbd disabled fbpdu enabled
- config stp ports 6 cost auto priority 128 edge false p2p auto state enabled lbd disabled fbpdu enabled
- config stp ports 7 cost auto priority 128 edge false p2p auto state enabled lbd disabled fbpdu enabled
- config stp ports 8 cost auto priority 128 edge false p2p auto state enabled lbd disabled fbpdu enabled
- config stp ports 9 cost auto priority 128 edge false p2p auto state enabled lbd disabled fbpdu enabled
+#  config stp ports 1 cost auto priority 128 edge false p2p auto state enabled lbd disabled fbpdu enabled
+#  config stp ports 2 cost auto priority 128 edge false p2p auto state enabled lbd disabled fbpdu enabled
+#  config stp ports 3 cost auto priority 128 edge false p2p auto state enabled lbd disabled fbpdu enabled
+#  config stp ports 4 cost auto priority 128 edge false p2p auto state enabled lbd disabled fbpdu enabled
+#  config stp ports 5 cost auto priority 128 edge false p2p auto state enabled lbd disabled fbpdu enabled
+#  config stp ports 6 cost auto priority 128 edge false p2p auto state enabled lbd disabled fbpdu enabled
+#  config stp ports 7 cost auto priority 128 edge false p2p auto state enabled lbd disabled fbpdu enabled
  config stp ports 10 cost auto priority 128 edge false p2p auto state enabled lbd disabled fbpdu enabled
  config stp ports 11 cost auto priority 128 edge false p2p auto state enabled lbd disabled fbpdu enabled
  config stp ports 12 cost auto priority 128 edge false p2p auto state enabled lbd disabled fbpdu enabled
