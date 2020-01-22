@@ -595,13 +595,13 @@ create iproute default 10.147.29.1 1
 #------------------------------------------------------------------
 
 
-DES-3052:5#hshow account
+DES-3052:5#show account
+Command: show account
 
-Available commands:
-..                  ?                   cable_diag          clear
-config              create              debug               delete
-dir                 disable             download            enable
-login               logout              ping                reboot
-reconfig            reset               save                show
-smtp                telnet              traceroute          upload
+Current Accounts:
+Username            Access Level
+------------------  ------------
+admin               Admin
+
+Total Entries : 1
 
