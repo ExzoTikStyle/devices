@@ -24,7 +24,6 @@ add interface="id=1011.eoip.Office-2.Novgor.32" name="eoip.id=1011.vlan99" vlan-
 add interface=ether1 name=eth1.100 vlan-id=100
 add interface=ether1 name=eth1.3016 vlan-id=3016
 add interface=ether1 name=eth1.3017 vlan-id=3017
-add interface=ether2 name=eth2.3017 vlan-id=3017
 add interface=ether5 name=eth5.vlan3017 vlan-id=3017
 /interface list
 add include=none name=disable
@@ -65,7 +64,6 @@ add bridge=bridge_3017_new interface=wifi.vlan3017
 add bridge=bridge_3017_new interface=wlan.vlan3017
 add bridge=bridge_3017_new interface=eth5.vlan3017
 add bridge=bridge-of interface=ether5
-add bridge=bridge_3017_new interface=eth2.3017
 /interface list member
 add list=disable
 add interface=wlan.vlan3017 list=disable
