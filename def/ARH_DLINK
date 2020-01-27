@@ -81,11 +81,12 @@
 # config 802.1p user_priority 4 2
 # config 802.1p user_priority 5 2
 # config 802.1p user_priority 6 3
-# config 802.1p user_priority 7 3
-# config cos tos value 0 class 0
-# config cos tos value 1 class 0
-# config cos tos value 2 class 0
-# config cos tos value 3 class 0
+config cos tos value 1 class 0
+config cos tos value 2 class 0
+config cos tos value 3 class 0
+config cos tos value 4 class 0
+config cos tos value 5 class 0
+config cos tos value 6 class 0
 config cos tos value 7 class 0
 config dscp_mapping dscp_value 0 class 0
 config dscp_mapping dscp_value 1 class 0
@@ -595,13 +596,13 @@ create iproute default 10.147.29.1 1
 #------------------------------------------------------------------
 
 
-DES-3052:5#show account
-Command: show account
+DES-3052:5#hshow account
 
-Current Accounts:
-Username            Access Level
-------------------  ------------
-admin               Admin
-
-Total Entries : 1
+Available commands:
+..                  ?                   cable_diag          clear
+config              create              debug               delete
+dir                 disable             download            enable
+login               logout              ping                reboot
+reconfig            reset               save                show
+smtp                telnet              traceroute          upload
 
