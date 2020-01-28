@@ -14,19 +14,17 @@
 # serial number = 7BCC07FA17E6
 /interface bridge
 add mtu=1500 name=bridge-VOIP protocol-mode=none
-add admin-mac=64:D1:54:D7:8C:85 auto-mac=no disabled=yes mtu=1500 name=bridge-of protocol-mode=none
+add admin-mac=64:D1:54:D7:8C:85 auto-mac=no disabled=yes mtu=1500 name=bridge-reserve protocol-mode=none
 add name=bridge_541
-add admin-mac=64:D1:54:D7:8C:99 auto-mac=no disabled=yes fast-forward=no name=bridge_3017_new protocol-mode=none
+add admin-mac=64:D1:54:D7:8C:99 auto-mac=no fast-forward=no name=bridge_3017_new protocol-mode=none
 add disabled=yes mtu=1600 name=hotspot
-/interface ethernet
-set [ find default-name=ether1 ] disabled=yes
 /interface eoip
 add disabled=yes !keepalive local-address=10.29.200.10 mac-address=02:BB:FA:FD:3E:7C mtu=1500 name="id=1011.eoip.Office-2.Novgor.32" remote-address=10.29.0.234 tunnel-id=1011
 /interface vlan
-add interface="id=1011.eoip.Office-2.Novgor.32" name="eoip.id=1011.vlan103" vlan-id=103
-add interface="id=1011.eoip.Office-2.Novgor.32" name="eoip.id=1011.vlan99" vlan-id=99
-add interface=ether1 name=eth1.100 vlan-id=100
-add interface=ether1 name=eth1.3016 vlan-id=3016
+add disabled=yes interface="id=1011.eoip.Office-2.Novgor.32" name="eoip.id=1011.vlan103" vlan-id=103
+add disabled=yes interface="id=1011.eoip.Office-2.Novgor.32" name="eoip.id=1011.vlan99" vlan-id=99
+add disabled=yes interface=ether1 name=eth1.100 vlan-id=100
+add disabled=yes interface=ether1 name=eth1.3016 vlan-id=3016
 add interface=ether1 name=eth1.3017 vlan-id=3017
 add interface=ether2 name=eth2.541 vlan-id=541
 add interface=ether2 name=eth2.542 vlan-id=542
@@ -41,9 +39,9 @@ add authentication-types=wpa2-psk eap-methods="" management-protection=allowed m
 set [ find default-name=wlan1 ] band=2ghz-b/g/n disabled=no hide-ssid=yes mode=ap-bridge security-profile=profile1 ssid=Enforta-ARH-Office vlan-id=541
 add keepalive-frames=disabled mac-address=66:D1:54:D7:8C:23 master-interface=wlan1 multicast-buffering=disabled name=HS ssid=ARH-WIFI wds-cost-range=0 wds-default-cost=0 wps-mode=disabled
 add disabled=no keepalive-frames=disabled mac-address=66:D1:54:D7:8C:24 master-interface=wlan1 multicast-buffering=disabled name="OFFICE wlan" security-profile=profile1 ssid=ARH-OFFICE vlan-id=541 vlan-mode=use-tag wds-cost-range=0 wds-default-cost=0 wps-mode=disabled
-add disabled=no keepalive-frames=disabled mac-address=66:D1:54:D7:8C:25 master-interface=wlan1 multicast-buffering=disabled name=Reserved security-profile=profile1 ssid=ARH-OFFICE-RESERV vlan-id=3017 vlan-mode=use-tag wds-cost-range=0 wds-default-cost=0 wps-mode=disabled
+add disabled=no keepalive-frames=disabled mac-address=66:D1:54:D7:8C:25 master-interface=wlan1 multicast-buffering=disabled name=Reserve security-profile=profile1 ssid=ARH-OFFICE-RESERVE vlan-id=3017 vlan-mode=use-tag wds-cost-range=0 wds-default-cost=0 wps-mode=disabled
 /interface vlan
-add interface=Reserved name=reserved.vlan3017 vlan-id=3017
+add interface=Reserve name=reserve.vlan3017 vlan-id=3017
 add interface="OFFICE wlan" name=wifioffice.541 vlan-id=541
 /ip pool
 add name=pool-of ranges=192.168.199.2-192.168.199.10
@@ -56,28 +54,27 @@ add addresses=::/0 name=engforta
 add addresses=::/0 name=enfortit write-access=yes
 /interface bridge port
 add bridge=bridge-VOIP disabled=yes interface="eoip.id=1011.vlan103"
-add bridge=bridge-of disabled=yes interface="eoip.id=1011.vlan99"
-add bridge=hotspot interface=HS
+add bridge=bridge-reserve interface="eoip.id=1011.vlan99"
+add bridge=hotspot disabled=yes interface=HS
 add bridge=bridge_3017_new interface=eth1.3017
-add bridge=bridge_3017_new interface=*24
-add bridge=bridge-of disabled=yes interface=ether3
+add bridge=bridge-reserve disabled=yes interface=ether3
 add bridge=bridge_541 interface=eth2.541
 add bridge=bridge_541 interface=wifioffice.541
 add bridge=bridge_541 interface="OFFICE wlan"
 add bridge=bridge_541 interface=eth5.541
 add bridge=bridge_541 interface=ether5
-add bridge=bridge_3017_new interface=Reserved
-add bridge=bridge-VOIP interface=reserved.vlan3017
+add bridge=bridge_3017_new interface=Reserve
+add bridge=bridge_3017_new interface=reserve.vlan3017
 add bridge=bridge_3017_new interface=eth3.vlan3017
+add bridge=bridge_3017_new interface=ether3
 /interface list member
 add list=disable
 add list=disable
 /ip address
-add address=10.29.200.10/24 interface=eth1.100 network=10.29.200.0
+add address=10.29.200.10/24 disabled=yes interface=eth1.100 network=10.29.200.0
 add address=10.147.29.203/24 disabled=yes interface="eoip.id=1011.vlan99" network=10.147.29.0
 add address=172.18.0.1/24 disabled=yes interface=hotspot network=172.18.0.0
-add address=5.5.5.1/30 interface=eth1.3016 network=5.5.5.0
-add address=10.124.188.13/25 interface=bridge_3017_new network=10.124.188.0
+add address=5.5.5.1/30 disabled=yes interface=eth1.3016 network=5.5.5.0
 add address=10.124.236.1/29 interface=eth2.542 network=10.124.236.0
 /ip dhcp-client
 add dhcp-options=hostname,clientid disabled=no interface=bridge_3017_new
@@ -85,11 +82,12 @@ add dhcp-options=hostname,clientid disabled=no interface=bridge_3017_new
 add dhcp-options=hostname,clientid disabled=no interface=eth2.541
 add dhcp-options=hostname,clientid disabled=no interface=eth2.542
 /ip dhcp-server network
+add address=10.124.188.0/25 dns-server=10.117.0.1,10.177.0.2,10.101.0.1,10.101.250.1,10.121.0.1,10.102.0.1 gateway=10.124.188.126 netmask=25
 add address=172.18.0.0/24 gateway=172.18.0.1
 add address=192.168.199.0/29 dns-none=yes gateway=192.168.199.1 netmask=29
 /ip route
 add distance=1 gateway=10.124.188.126
-add disabled=yes distance=1 gateway=10.29.200.1
+add distance=1 gateway=10.29.200.1
 add distance=1 dst-address=10.0.0.0/8 gateway=10.29.200.1
 add distance=1 dst-address=192.168.66.0/24 gateway=10.29.200.1
 /snmp
