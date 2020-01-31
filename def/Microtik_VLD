@@ -71,6 +71,7 @@ add address=10.147.135.60 client-id=1:1c:1b:d:99:a9:52 mac-address=1C:1B:0D:99:A
 add address=10.147.135.55 client-id=1:0:22:43:28:ac:79 mac-address=00:22:43:28:AC:79 server=server-dhcp-of
 add address=10.147.135.61 mac-address=7C:2F:80:C3:B2:E8 server=server-dhcp-of
 add address=10.147.135.63 always-broadcast=yes client-id=1:1c:6f:65:e9:cf:42 mac-address=1C:6F:65:E9:CF:42 server=server-dhcp-of
+add address=10.147.135.86 mac-address=3C:4A:92:B4:A7:42 server=server-dhcp-of
 /ip dhcp-server network
 add address=10.147.135.0/24 boot-file-name="x86pc\\undi\\provwin\\startrom.0" dns-server=192.168.66.66,10.77.0.141 gateway=10.147.135.1 netmask=24 next-server=10.147.135.53
 add address=192.100.0.0/24 dns-server=87.241.223.68,81.17.2.171,8.8.8.8 gateway=192.100.0.1
